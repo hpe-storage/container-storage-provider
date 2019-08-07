@@ -516,7 +516,7 @@ GET http://localhost:8080/csp/containers/v1/snapshots?volume_id=067b5b0c6a3d0ece
             "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
             "volume_name": "volume1",
             "creation_time": 1565206041,
-            "ready_to_use": true,
+            "ready_to_use": true
             "config": {
                 "online": false,
                 "writable": false
@@ -655,14 +655,53 @@ DELETE http://localhost:8080/csp/containers/v1/snapshots/047b5b0c6a3d0ece0600000
 
 ## Objects
 
-| Objects | Attributes |
-| ------- | ---------- |
-| Token | id (string)<br>username (string) - mandatory<br>password (string) - mandatory<br>session_token (string) - used for all future authentication<br>expiry_time (number) |
-| Host | id (string)<br>uuid (string) - mandatory<br>name (string) - mandatory<br>iqns (list\<string\>) - mandatory if wwpns are not specified<br>wwpns (list\<string\>) - mandatory if iqns are not specified<br>networks (list\<string\>) - mandatory if iqns are specified<br>chap_user (string)<br>chap_password (string) |
-| Volume | id (string)<br>name (string) - mandatory<br>size (number in bytes) - mandatory<br>base_snapshot_id (string) - used for cloning<br>volume_group_id (string)<br>clone (boolean) - true to create a clone<br>published (boolean) - true if the volume has been published; false otherwise (mandatory)<br>config (map[string]interface{}) |
-| VolumeConfig | map[string]interface{} - vendor specific volume properties |
-| PublishOptions | host_id (string) - mandatory<br>access_protocol ("fc" or "iscsi") - mandatory |
-| PublishInfo | <ul><li>Block<ul><li>serial_number (string) - mandatory</li><li>access_protocol ("fc" or "iscsi") - mandatory</li><li>lun_id (number) - mandatory</li><li>target_name (string) - mandatory for iscsi</li><li>discovery_ip (string) - mandatory for iscsi</li><li>chap_user (string) - optional for iscsi</li><li>chap_password (string) - optional for iscsi</li></ul></li><li>VMDK<ul><li>pci_id (number)</li><li>unit_number (number)</li></ul></li><li>NFS<ul><li>TBD</li></ul></li></ul> |
-| UnpublishOptions | host_id (string) - mandatory |
-| Snapshot | id (string)<br>name (string) - mandatory<br>size (number) - in bytes<br>volume_id (string) - mandatory<br>volume_name (string)<br>creation_time (number) - in seconds (mandatory)<br>ready_to_use (boolean) - mandatory<br>config (map[string]interface{}) |
-| SnapshotConfig | map[string]interface{} - vendor specific snapshot properties |
+| Objects | Attributes | Type | Mandatory | Input | Output |
+| ------- | ---------- | ---- | --------- | ----- | ------ |
+| Token | | | | | |
+| | id | string | | | X |
+| | username | string | X | X | X | 
+| | password | string | X | X | | 
+| | array_ip | string | when running on cluster | X | | 
+| | session_token (used for all future authentication) | string | X | | X |
+| | creation_time | number | | | X |
+| | expiry_time | number | | | X |
+| Host | | | | | |
+| | id | string | | | X |
+| | uuid | string | X | X | X | 
+| | name | string | X | X | X | 
+| | iqns | list\<string\> | when wwpns are not specified | X | X | 
+| | wwpns | list\<string\> | when iqns are not specified | X | X | 
+| | networks | list\<string\> | when iqns are specified | X | X | 
+| | chap_user | string |  | X | X |
+| | chap_password | string | X | | X |
+| Volume | | | | | |
+| | id | string | | | X |
+| | name | string | X | X | X | 
+| | size | number | X | X | X | 
+| | description | string | | X | X | 
+| | base_snapshot_id | string | | X | X | 
+| | clone | boolean |  | X | X |
+| | volume_group_id (TBD) | string | | X | X |
+| | published | boolean |  | | X |
+| | config | map[string]interface{} | | | X |
+| PublishOptions | | | | | |
+| | host_id | string | X | X | |
+| | access_protocol | string | X | X | |
+| PublishInfo | | | | | |
+| | serial_number | string | X | | X |
+| | access_protocol | string | X | | X |
+| | lun_id | number | X | | X |
+| | target_name | string | only for iscsi | | X |
+| | discovery_ip | string | only for iscsi | | X |
+| UnpublishOptions | | | | | |
+| | host_id | string | X | X | |
+| Snapshot | | | | | |
+| | id | string | | | X |
+| | name | string | X | X | X | 
+| | size | number | | | X | 
+| | description | string | | X | X | 
+| | volume_id | string | X | X | X |
+| | volume_name | string | | | X |
+| | creation_time (seconds) | number | X | | X |
+| | ready_to_use | boolean | X | | X |
+| | config | map[string]interface{} | | X | X |
