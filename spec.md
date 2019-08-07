@@ -516,7 +516,7 @@ GET http://localhost:8080/csp/containers/v1/snapshots?volume_id=067b5b0c6a3d0ece
             "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
             "volume_name": "volume1",
             "creation_time": 1565206041,
-            "ready_to_use": true
+            "ready_to_use": true,
             "config": {
                 "online": false,
                 "writable": false
