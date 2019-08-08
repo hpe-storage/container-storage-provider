@@ -673,7 +673,7 @@ DELETE http://localhost:8080/csp/containers/v1/snapshots/047b5b0c6a3d0ece0600000
 | | wwpns | list\<string\> | when iqns are not specified | X | X | 
 | | networks | list\<string\> | when iqns are specified | X | X | 
 | | chap_user | string |  | X | X |
-| | chap_password | string | X | | X |
+| | chap_password | string | | X | X |
 | Volume | | | | | |
 | | id | string | | | X |
 | | name | string | X | X | X | 
