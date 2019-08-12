@@ -102,7 +102,9 @@ DELETE `/containers/v1/hosts/{id}`
 
 ### `/containers/v1/volumes`
 
-This endpoint is used to manage the creation, update, and deletion of volumes that are used for container environments.  The following methods will be supported against this endpoint.
+This endpoint is used to manage the creation, update, and deletion of volumes that are used for container environments.  Note the `config` attribute is a map that will receive all of the parameters defined within the storage class associated with the persistent volume being provisioned through the CSI driver.  Annotations on the persistent volume claim will override those parameters from the storage class.  Each CSP implementation is responsible for handling the parameters defined within the storage class associated with the persistent volume claim.
+
+The following methods will be supported against this endpoint.
 
 GET `/containers/v1/volumes`
  * Return all of the volumes used for containers on the array.
@@ -123,17 +125,8 @@ GET http://localhost:8080/csp/containers/v1/volumes
             "description": "my second volume",
             "published": false,
             "config": {
-                "pool": "default",
-                "folder": "",
-                "encrypted": false,
-                "thick": false,
-                "performance_policy": "SQL Server",
-                "dedupe_enabled": false,
-                "limit_iops": -1,
-                "limit_mbps": -1,
-                "destroy_on_delete": false,
-                "sync_on_detach": true,
-                "clone_of": ""
+                "parameter1": "default",
+                "parameter2": false
             }
         },
         {
@@ -143,17 +136,8 @@ GET http://localhost:8080/csp/containers/v1/volumes
             "description": "my first volume",
             "published": false,
             "config": {
-                "pool": "default",
-                "folder": "",
-                "encrypted": false,
-                "thick": false,
-                "performance_policy": "SQL Server",
-                "dedupe_enabled": false,
-                "limit_iops": -1,
-                "limit_mbps": -1,
-                "destroy_on_delete": false,
-                "sync_on_detach": true,
-                "clone_of": ""
+                "parameter1": "default",
+                "parameter2": false
             }
         }
     ]
@@ -179,17 +163,8 @@ GET http://localhost:8080/csp/containers/v1/volumes/067b5b0c6a3d0ece060000000000
         "description": "my first volume",
         "published": false,
         "config": {
-            "pool": "default",
-            "folder": "",
-            "encrypted": false,
-            "thick": false,
-            "performance_policy": "SQL Server",
-            "dedupe_enabled": false,
-            "limit_iops": -1,
-            "limit_mbps": -1,
-            "destroy_on_delete": false,
-            "sync_on_detach": true,
-            "clone_of": ""
+            "parameter1": "default",
+            "parameter2": false
         }
     }
 }
@@ -215,17 +190,8 @@ GET http://localhost:8080/csp/containers/v1/volumes?name=volume1
             "description": "my first volume",
             "published": false,
             "config": {
-                "pool": "default",
-                "folder": "",
-                "encrypted": false,
-                "thick": false,
-                "performance_policy": "SQL Server",
-                "dedupe_enabled": false,
-                "limit_iops": -1,
-                "limit_mbps": -1,
-                "destroy_on_delete": false,
-                "sync_on_detach": true,
-                "clone_of": ""
+                "parameter1": "default",
+                "parameter2": false
             },
             "base_snapshot_id": "",
             "volume_group_id": ""
@@ -273,17 +239,8 @@ PUT `/containers/v1/volumes/{id}`
         "description": "my cool new description",
         "published": false,
         "config": {
-            "pool": "default",
-            "folder": "",
-            "encrypted": false,
-            "thick": false,
-            "performance_policy": "SQL Server",
-            "dedupe_enabled": false,
-            "limit_iops": -1,
-            "limit_mbps": -1,
-            "destroy_on_delete": false,
-            "sync_on_detach": true,
-            "clone_of": ""
+            "parameter1": "default",
+            "parameter2": false
         }
     }
 }
@@ -324,9 +281,8 @@ POST `/containers/v1/volumes`
         "size": "1073741824",
         "description": "my first volume",
         "config": {
-            "performance_policy": "default",
-            "protection_template": "Retain-30Daily",
-            "sync_on_detach": true
+            "parameter1": "default",
+            "parameter2": false
         }
     }
 }
@@ -344,16 +300,8 @@ POST `/containers/v1/volumes`
         "base_snapshot_id": "",
         "volume_group_id": "073b5de80e54af7a6b000000000000000000000098",
         "config": {
-            "dedupe_enabled": false,
-            "encrypted": false,
-            "pool": "default",
-            "folder": "",
-            "limit_iops": -1,
-            "limit_mbps": -1,
-            "performance_policy": "default",
-            "protection_template": "Retain-30Daily",
-            "sync_on_detach": true,
-            "thick": false
+            "parameter1": "default",
+            "parameter2": false
         }
     }
 }
@@ -362,17 +310,16 @@ POST `/containers/v1/volumes`
 #### Clone request
 ```json
 {
-  "data": {  
-    "name":"volume2",
-    "size": 1073741824,
-    "base_snapshot_id":"063b5de80e54af7a6b0000000000000000000000f0",
-    "clone": true,
-    "config": {
-      "performance_policy": "default",
-      "protection_template": "Retain-30Daily",
-      "sync_on_detach": true
+    "data": {  
+        "name":"volume2",
+        "size": 1073741824,
+        "base_snapshot_id":"063b5de80e54af7a6b0000000000000000000000f0",
+        "clone": true,
+        "config": {
+            "parameter1": "default",
+            "parameter2": false
+        }
     }
-  }
 }
 ```
 
@@ -387,19 +334,8 @@ POST `/containers/v1/volumes`
         "base_snapshot_id": "063b5de80e54af7a6b0000000000000000000000f0",
         "volume_group_id": "073b5de80e54af7a6b000000000000000000000099",
         "config": {
-            "clone_of": "my-new-volume",
-            "dedupe_enabled": false,
-            "description": "",
-            "encrypted": false,
-            "ephemeral": false,
-            "folder": "",
-            "limit_iops": -1,
-            "limit_mbps": -1,
-            "performance_policy": "default",
-            "pool": "default",
-            "protection_template": "Retain-30Daily",
-            "sync_on_detach": true,
-            "thick": false
+            "parameter1": "default",
+            "parameter2": false
         }
     }
 }
@@ -516,10 +452,10 @@ GET http://localhost:8080/csp/containers/v1/snapshots?volume_id=067b5b0c6a3d0ece
             "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
             "volume_name": "volume1",
             "creation_time": 1565206041,
-            "ready_to_use": true
+            "ready_to_use": true,
             "config": {
-                "online": false,
-                "writable": false
+                "parameter1": "default",
+                "parameter2": false
             }
         }
     ]
@@ -548,8 +484,8 @@ GET http://localhost:8080/csp/containers/v1/snapshots?volume_id=067b5b0c6a3d0ece
             "creation_time": 1565206041,
             "ready_to_use": true,
             "config": {
-                "online": false,
-                "writable": false
+                "parameter1": "default",
+                "parameter2": false
             }
         }
     ]
@@ -577,8 +513,8 @@ GET http://localhost:8080/csp/containers/v1/snapshots/047b5b0c6a3d0ece0600000000
         "creation_time": 1565206041,
         "ready_to_use": true,
         "config": {
-            "online": false,
-            "writable": false
+            "parameter1": "default",
+            "parameter2": false
         }
     }
 }
@@ -596,8 +532,8 @@ POST `/containers/v1/snapshots`
         "description": "my first snapshot",
         "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
         "config": {
-            "online": false,
-            "writable": false
+            "parameter1": "default",
+            "parameter2": false
         }
     }
 }
@@ -616,8 +552,8 @@ POST `/containers/v1/snapshots`
         "creation_time": 1565206041,
         "ready_to_use": true,
         "config": {
-            "online": false,
-            "writable": false
+            "parameter1": "default",
+            "parameter2": false
         }
     }
 }
