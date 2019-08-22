@@ -585,8 +585,8 @@ This endpoint is used to manage the creation and deletion of volume groups that 
 
  * Definitions coming soon
 
-### `/containers/v1/volume_group_snapshots`
-This endpoint is used to manage the creation and deletion of volume group snapshots that are used for container environments.  The following methods will be supported against this endpoint.
+### `/containers/v1/snapshot_groups`
+This endpoint is used to manage the creation and deletion of snapshot groups that are used for container environments.  The following methods will be supported against this endpoint.
 
  * Definitions coming soon
 
