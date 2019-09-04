@@ -1,5 +1,8 @@
 {
   "openapi" : "3.0.1",
+  "servers" : [{
+    "url" : "/containers/v1"
+  }],
   "info" : {
     "title" : "Nimble Storage Container Storage Provider (CSP) REST API",
     "description" : "This API, used by the HPE CSI driver, enables management of resources used for container workloads.\nIt is not intended for direct usage outside of the CSI driver but is provided here for documentation purposes.",
