@@ -94,7 +94,7 @@ POST `/containers/v1/hosts`
 }
 ```
 
-Note the id attribute must be used to publish/unpublish volumes.
+Note the `uuid` attribute must be used to publish/unpublish volumes.
 
 DELETE `/containers/v1/hosts/{id}`
  * Delete the host identified
@@ -343,13 +343,13 @@ POST `/containers/v1/volumes`
 
 PUT `/containers/v1/volumes/{id}/actions/publish`
  * Publish the volume to the given host.  Publishing means the host can now rescan for the device and find it.  For example, the nimble implementation would add an access control record for the host to this volume.
- * The body must contain the `host_id` and the `access_protocol` to be used.
+ * The body must contain the `host_uuid` and the `access_protocol` to be used.
 
 #### Request for iscsi access
 ```json
 {
     "data": {
-        "host_id": "41302701-0196-420f-b319-834a79891db0",
+        "host_uuid": "41302701-0196-420f-b319-834a79891db0",
         "access_protocol": "iscsi"
     }
 }
@@ -373,7 +373,7 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 ```json
 {
     "data": {
-        "host_id": "41302701-0196-420f-b319-834a79891db0",
+        "host_uuid": "41302701-0196-420f-b319-834a79891db0",
         "access_protocol": "fc"
     }
 }
@@ -392,13 +392,13 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 
 PUT `/containers/v1/volumes/{id}/actions/unpublish`
  * Unpublish the volume from the given host.  For example, the Nimble implementation would remove an access control record for the specified host during this operation.
- * The body must contain the host ID
+ * The body must contain the host UUID
 
 #### Request
 ```json
 {
     "data": {
-        "host_id": "41302701-0196-420f-b319-834a79891db0"
+        "host_uuid": "41302701-0196-420f-b319-834a79891db0"
     }
 }
 ```
@@ -631,7 +631,7 @@ This endpoint is used to manage the creation and deletion of snapshot groups tha
 | | published | boolean |  | | X |
 | | config | map[string]interface{} | | | X |
 | PublishOptions | | | | | |
-| | host_id | string | X | X | |
+| | host_uuid | string | X | X | |
 | | access_protocol | string | X | X | |
 | PublishInfo | | | | | |
 | | serial_number | string | X | | X |
@@ -640,7 +640,7 @@ This endpoint is used to manage the creation and deletion of snapshot groups tha
 | | target_name | string | only for iscsi | | X |
 | | discovery_ip | string | only for iscsi | | X |
 | UnpublishOptions | | | | | |
-| | host_id | string | X | X | |
+| | host_uuid | string | X | X | |
 | Snapshot | | | | | |
 | | id | string | | | X |
 | | name | string | X | X | X | 

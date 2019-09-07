@@ -1,8 +1,5 @@
 {
   "openapi" : "3.0.1",
-  "servers" : [{
-    "url" : "/containers/v1"
-  }],
   "info" : {
     "title" : "Nimble Storage Container Storage Provider (CSP) REST API",
     "description" : "This API, used by the HPE CSI driver, enables management of resources used for container workloads.\nIt is not intended for direct usage outside of the CSI driver but is provided here for documentation purposes.",
@@ -11,6 +8,10 @@
     },
     "version" : "1.0.0"
   },
+  "servers" : [ {
+    "url" : "/containers/v1",
+    "variables" : { }
+  } ],
   "tags" : [ {
     "name" : "hosts",
     "description" : "A host represents a member of the container orchestrator cluster"
@@ -120,6 +121,96 @@
         }
       }
     },
+    "/snapshot_groups/{id}" : {
+      "get" : {
+        "summary" : "Get a snapshot group with the given ID",
+        "operationId" : "getSnapshotGroup",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Snapshot group ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SnapshotGroup"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found if snapshot group ID cannot be found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a snapshot group",
+        "operationId" : "deleteSnapshotGroup",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the snapshot group to delete",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not found if snapshot group ID is not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
     "/snapshot_groups" : {
       "get" : {
         "summary" : "Get all snapshot groups used for container workloads",
@@ -213,96 +304,6 @@
           },
           "401" : {
             "description" : "Unauthorized"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/snapshot_groups/{id}" : {
-      "get" : {
-        "summary" : "Get a snapshot group with the given ID",
-        "operationId" : "getSnapshotGroup",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Snapshot group ID",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/SnapshotGroup"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not Found if snapshot group ID cannot be found"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "Delete a snapshot group",
-        "operationId" : "deleteSnapshotGroup",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "The id of the snapshot group to delete",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "No Content"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not found if snapshot group ID is not found"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -583,6 +584,99 @@
         }
       }
     },
+    "/volume_groups/{id}" : {
+      "get" : {
+        "summary" : "Get the volume group with the given ID",
+        "operationId" : "getVolumeGroup",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Volume group ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/VolumeGroup"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found if volume group ID cannot be found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a volume group",
+        "operationId" : "deleteVolumeGroup",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the volume group to delete",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not found if volume group ID is not found"
+          },
+          "409" : {
+            "description" : "Conflict if the volume group cannot be deleted"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
     "/volume_groups" : {
       "get" : {
         "summary" : "Get all volume groups used for container workloads",
@@ -675,99 +769,6 @@
           },
           "401" : {
             "description" : "Unauthorized"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/volume_groups/{id}" : {
-      "get" : {
-        "summary" : "Get the volume group with the given ID",
-        "operationId" : "getVolumeGroup",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Volume group ID",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/VolumeGroup"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not Found if volume group ID cannot be found"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "Delete a volume group",
-        "operationId" : "deleteVolumeGroup",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "The id of the volume group to delete",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "No Content"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not found if volume group ID is not found"
-          },
-          "409" : {
-            "description" : "Conflict if the volume group cannot be deleted"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -1034,61 +1035,6 @@
         }
       }
     },
-    "/volumes/{id}/actions/unpublish" : {
-      "put" : {
-        "summary" : "Unpublishes a volume from the given node",
-        "operationId" : "unpublishVolume",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "The id of the volume to unpublish",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "description" : "The unpublish options for the volume",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/UnpublishOptions"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "204" : {
-            "description" : "No Content"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not Found if volume ID or node ID cannot be found"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      }
-    },
     "/volumes/{id}/actions/publish" : {
       "put" : {
         "summary" : "Publishes a volume to the given node",
@@ -1135,6 +1081,61 @@
                 }
               }
             }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found if volume ID or node ID cannot be found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/volumes/{id}/actions/unpublish" : {
+      "put" : {
+        "summary" : "Unpublishes a volume from the given node",
+        "operationId" : "unpublishVolume",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the volume to unpublish",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "The unpublish options for the volume",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UnpublishOptions"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
           },
           "400" : {
             "description" : "Bad Request"
@@ -1418,14 +1419,6 @@
           }
         }
       },
-      "UnpublishOptions" : {
-        "type" : "object",
-        "properties" : {
-          "host_id" : {
-            "type" : "string"
-          }
-        }
-      },
       "PublishInfo" : {
         "type" : "object",
         "properties" : {
@@ -1457,12 +1450,20 @@
       "PublishOptions" : {
         "type" : "object",
         "properties" : {
-          "host_id" : {
+          "host_uuid" : {
             "type" : "string"
           },
           "access_protocol" : {
             "type" : "string",
             "enum" : [ "iscsi", "fc" ]
+          }
+        }
+      },
+      "UnpublishOptions" : {
+        "type" : "object",
+        "properties" : {
+          "host_uuid" : {
+            "type" : "string"
           }
         }
       }
