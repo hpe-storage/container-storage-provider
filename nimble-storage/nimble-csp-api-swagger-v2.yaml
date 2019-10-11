@@ -855,4 +855,4 @@ parameters:
     in: header
     description: Used to identify which array the CSP should route the operation to
     required: false
-    allowEmptyValue: true
+    type: string
