@@ -360,7 +360,9 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 {
     "data": {
         "access_protocol": "iscsi",
-        "discovery_ip": "172.89.82.10",
+        "discovery_ips": [
+            "172.89.82.10"
+        ],
         "lun_id": 0,
         "serial_number": "4349bd228896f1236c9ce9006592f26f",
         "target_name": "iqn.2007-11.com.nimblestorage:group-array1-g3b5de80e54af7a6b"
@@ -638,7 +640,7 @@ This endpoint is used to manage the creation and deletion of snapshot groups tha
 | | access_protocol | string | X | | X |
 | | lun_id | number | X | | X |
 | | target_name | string | only for iscsi | | X |
-| | discovery_ip | string | only for iscsi | | X |
+| | discovery_ips | list\<string\> | only for iscsi | | X |
 | UnpublishOptions | | | | | |
 | | host_uuid | string | X | X | |
 | Snapshot | | | | | |
