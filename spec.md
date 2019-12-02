@@ -65,8 +65,8 @@ POST `/containers/v1/hosts`
             "iqn.2019-06.com.cloudvolumes:cooler-iqn"
         ],
         "networks": [
-            "10.10.50.0",
-            "10.234.60.0"
+            "172.28.12.161/20",
+            "10.234.63.105/20"
         ],
         "wwpns": []
     }
@@ -86,8 +86,8 @@ POST `/containers/v1/hosts`
             "iqn.2019-06.com.cloudvolumes:cooler-iqn"
         ],
         "networks": [
-            "10.10.50.0",
-            "10.234.60.0"
+            "172.28.12.161/20",
+            "10.234.63.105/20"
         ],
         "wwpns": []
     }
