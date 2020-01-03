@@ -355,7 +355,7 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 }
 ```
 
-#### Response
+#### Response for single target IQN
 ```json
 {
     "data": {
@@ -365,11 +365,26 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
         ],
         "lun_id": 0,
         "serial_number": "4349bd228896f1236c9ce9006592f26f",
-        "target_name": "iqn.2007-11.com.nimblestorage:group-array1-g3b5de80e54af7a6b"
+        "target_names": "iqn.2007-11.com.nimblestorage:group-array1-g3b5de80e54af7a6b"
     }
 }
 ```
  * Note that `chap_user` and `chap_password` must also be part of the response if CHAP details were provided as part of the Node definition.
+ * `target_names` json field should be separated by comma, if there are multiple target IQN's needs to be passed to CSI Driver.
+ #### Response for multiple target IQN
+```json
+{
+    "data": {
+        "access_protocol": "iscsi",
+        "discovery_ips": [
+            "172.89.82.10"
+        ],
+        "lun_id": 0,
+        "serial_number": "4349bd228896f1236c9ce9006592f26f",
+        "target_names": "iqn.2000-05.com.3pardata:21210002ac01db31,iqn.2000-05.com.3pardata:21220002ac01db31"
+    }
+}
+```
 
 #### Request for fc access
 ```json
