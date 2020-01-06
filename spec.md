@@ -655,7 +655,7 @@ This endpoint is used to manage the creation and deletion of snapshot groups tha
 | | serial_number | string | X | | X |
 | | access_protocol | string | X | | X |
 | | lun_id | number | X | | X |
-| | target_names | string | only for iscsi | | X |
+| | target_names | list\<string\> | only for iscsi | | X |
 | | discovery_ips | list\<string\> | only for iscsi | | X |
 | UnpublishOptions | | | | | |
 | | host_uuid | string | X | X | |
