@@ -370,9 +370,9 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 }
 ```
  * Note that `chap_user` and `chap_password` must also be part of the response if CHAP details were provided as part of the Node definition.
- * `target_names`  should be returned as an array of target IQN's from CSP and converted to CSV format by CSI driver.
+ * `target_names`  should be returned as an array of target IQNs from CSP and converted to CSV format by CSI driver.
  
- #### Response for multiple target IQN
+ #### Response for multiple target IQNs
 ```json
 {
     "data": {
@@ -655,7 +655,7 @@ This endpoint is used to manage the creation and deletion of snapshot groups tha
 | | serial_number | string | X | | X |
 | | access_protocol | string | X | | X |
 | | lun_id | number | X | | X |
-| | target_name | string | only for iscsi | | X |
+| | target_names | string | only for iscsi | | X |
 | | discovery_ips | list\<string\> | only for iscsi | | X |
 | UnpublishOptions | | | | | |
 | | host_uuid | string | X | X | |
