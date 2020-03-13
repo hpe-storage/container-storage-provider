@@ -657,6 +657,8 @@ This endpoint is used to manage the creation and deletion of snapshot groups tha
 | | lun_id | number | X | | X |
 | | target_names | list\<string\> | only for iscsi | | X |
 | | discovery_ips | list\<string\> | only for iscsi | | X |
+| | chap_user | string |  | | X |
+| | chap_password | string | | | X |
 | UnpublishOptions | | | | | |
 | | host_uuid | string | X | X | |
 | Snapshot | | | | | |
