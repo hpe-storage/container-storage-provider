@@ -19,25 +19,21 @@ POST `/containers/v1/tokens`
 #### Request
 ```json
 {
-    "data": {
-        "array_ip": "10.10.10.1",
-        "username": "admin",
-        "password": "password"
-    }
+    "array_ip": "10.10.10.1",
+    "username": "admin",
+    "password": "password"
 }
 ```
 
 #### Response
 ```json
 {
-    "data": {
-        "id": "193b5de80e54af7a6b000000000000000000002858",
-        "array_ip": "10.10.10.1",
-        "username": "admin",
-        "creation_time": 1562787389,
-        "expiry_time": 1562789189,
-        "session_token": "1a91b2502ac38b3d8105c662c3f4f003"
-    }
+    "id": "193b5de80e54af7a6b000000000000000000002858",
+    "array_ip": "10.10.10.1",
+    "username": "admin",
+    "creation_time": 1562787389,
+    "expiry_time": 1562789189,
+    "session_token": "1a91b2502ac38b3d8105c662c3f4f003"
 }
 ```
 
@@ -57,19 +53,17 @@ POST `/containers/v1/hosts`
 
 ```json
 {
-    "data": {
-        "name": "host-01.lab.internet.com",
-        "uuid": "41302701-0196-420f-b319-834a79891db0",
-        "iqns": [
-            "iqn.2019-07.com.nimblestorage:cool-iqn",
-            "iqn.2019-06.com.cloudvolumes:cooler-iqn"
-        ],
-        "networks": [
-            "172.28.12.161/20",
-            "10.234.63.105/20"
-        ],
-        "wwpns": []
-    }
+    "name": "host-01.lab.internet.com",
+    "uuid": "41302701-0196-420f-b319-834a79891db0",
+    "iqns": [
+        "iqn.2019-07.com.nimblestorage:cool-iqn",
+        "iqn.2019-06.com.cloudvolumes:cooler-iqn"
+    ],
+    "networks": [
+        "172.28.12.161/20",
+        "10.234.63.105/20"
+    ],
+    "wwpns": []
 }
 ```
 
@@ -77,20 +71,18 @@ POST `/containers/v1/hosts`
 
 ``` json
 {
-    "data": {
-        "id": "41302701-0196-420f-b319-834a79891db0",
-        "name": "host-01.lab.internet.com",
-        "uuid": "41302701-0196-420f-b319-834a79891db0",
-        "iqns": [
-            "iqn.2019-07.com.nimblestorage:cool-iqn",
-            "iqn.2019-06.com.cloudvolumes:cooler-iqn"
-        ],
-        "networks": [
-            "172.28.12.161/20",
-            "10.234.63.105/20"
-        ],
-        "wwpns": []
-    }
+    "id": "41302701-0196-420f-b319-834a79891db0",
+    "name": "host-01.lab.internet.com",
+    "uuid": "41302701-0196-420f-b319-834a79891db0",
+    "iqns": [
+        "iqn.2019-07.com.nimblestorage:cool-iqn",
+        "iqn.2019-06.com.cloudvolumes:cooler-iqn"
+    ],
+    "networks": [
+        "172.28.12.161/20",
+        "10.234.63.105/20"
+    ],
+    "wwpns": []
 }
 ```
 
@@ -116,32 +108,30 @@ GET http://localhost:8080/csp/containers/v1/volumes
 
 #### Response
 ```json
-{
-    "data": [
-        {
-            "id": "067b5b0c6a3d0ece0600000000000000000000001e",
-            "name": "volume2",
-            "size": 1073741824,
-            "description": "my second volume",
-            "published": false,
-            "config": {
-                "parameter1": "default",
-                "parameter2": false
-            }
-        },
-        {
-            "id": "067b5b0c6a3d0ece0600000000000000000000001d",
-            "name": "volume1",
-            "size": 1073741824,
-            "description": "my first volume",
-            "published": false,
-            "config": {
-                "parameter1": "default",
-                "parameter2": false
-            }
+[
+    {
+        "id": "067b5b0c6a3d0ece0600000000000000000000001e",
+        "name": "volume2",
+        "size": 1073741824,
+        "description": "my second volume",
+        "published": false,
+        "config": {
+            "parameter1": "default",
+            "parameter2": false
         }
-    ]
-}
+    },
+    {
+        "id": "067b5b0c6a3d0ece0600000000000000000000001d",
+        "name": "volume1",
+        "size": 1073741824,
+        "description": "my first volume",
+        "published": false,
+        "config": {
+            "parameter1": "default",
+            "parameter2": false
+        }
+    }
+]
 ```
 
 GET `/containers/v1/volumes/{id}`
@@ -156,16 +146,14 @@ GET http://localhost:8080/csp/containers/v1/volumes/067b5b0c6a3d0ece060000000000
 #### Response
 ```json
 {
-    "data": {
-        "id": "067b5b0c6a3d0ece0600000000000000000000001d",
-        "name": "volume1",
-        "size": 1073741824,
-        "description": "my first volume",
-        "published": false,
-        "config": {
-            "parameter1": "default",
-            "parameter2": false
-        }
+    "id": "067b5b0c6a3d0ece0600000000000000000000001d",
+    "name": "volume1",
+    "size": 1073741824,
+    "description": "my first volume",
+    "published": false,
+    "config": {
+        "parameter1": "default",
+        "parameter2": false
     }
 }
 ```
@@ -181,23 +169,21 @@ GET http://localhost:8080/csp/containers/v1/volumes?name=volume1
 
 #### Response
 ```json
-{
-    "data": [
-        {
-            "id": "067b5b0c6a3d0ece0600000000000000000000001d",
-            "name": "volume1",
-            "size": 1073741824,
-            "description": "my first volume",
-            "published": false,
-            "config": {
-                "parameter1": "default",
-                "parameter2": false
-            },
-            "base_snapshot_id": "",
-            "volume_group_id": ""
-        }
-    ]
-}
+[
+    {
+        "id": "067b5b0c6a3d0ece0600000000000000000000001d",
+        "name": "volume1",
+        "size": 1073741824,
+        "description": "my first volume",
+        "published": false,
+        "config": {
+            "parameter1": "default",
+            "parameter2": false
+        },
+        "base_snapshot_id": "",
+        "volume_group_id": ""
+    }
+]
 ```
 
 #### Request with unknown volume name
@@ -223,25 +209,21 @@ PUT `/containers/v1/volumes/{id}`
 #### Request
 ```json
 {
-    "data": {
-        "description": "my cool new description"
-    }
+    "description": "my cool new description"
 }
 ```
 
 #### Response
 ```json
 {
-    "data": {
-        "id": "067b5b0c6a3d0ece0600000000000000000000001d",
-        "name": "volume1",
-        "size": 1073741824,
-        "description": "my cool new description",
-        "published": false,
-        "config": {
-            "parameter1": "default",
-            "parameter2": false
-        }
+    "id": "067b5b0c6a3d0ece0600000000000000000000001d",
+    "name": "volume1",
+    "size": 1073741824,
+    "description": "my cool new description",
+    "published": false,
+    "config": {
+        "parameter1": "default",
+        "parameter2": false
     }
 }
 ```
@@ -249,10 +231,8 @@ PUT `/containers/v1/volumes/{id}`
 #### Request with unconfigurable property
 ```json
 {
-    "data": {
-        "config": {
-            "encrypted": true
-        }
+    "config": {
+        "encrypted": true
     }
 }
 ```
@@ -276,14 +256,12 @@ POST `/containers/v1/volumes`
 #### Create Request
 ```json
 {
-    "data": {
-        "name": "my-new-volume",
-        "size": "1073741824",
-        "description": "my first volume",
-        "config": {
-            "parameter1": "default",
-            "parameter2": false
-        }
+    "name": "my-new-volume",
+    "size": "1073741824",
+    "description": "my first volume",
+    "config": {
+        "parameter1": "default",
+        "parameter2": false
     }
 }
 ```
@@ -291,18 +269,16 @@ POST `/containers/v1/volumes`
 #### Create Response
 ```json
 {
-    "data": {
-        "id": "063b5de80e54af7a6b0000000000000000000000d0",
-        "name": "my-new-volume",
-        "size": 1073741824,
-        "description": "my first volume",
-        "published": false,
-        "base_snapshot_id": "",
-        "volume_group_id": "073b5de80e54af7a6b000000000000000000000098",
-        "config": {
-            "parameter1": "default",
-            "parameter2": false
-        }
+    "id": "063b5de80e54af7a6b0000000000000000000000d0",
+    "name": "my-new-volume",
+    "size": 1073741824,
+    "description": "my first volume",
+    "published": false,
+    "base_snapshot_id": "",
+    "volume_group_id": "073b5de80e54af7a6b000000000000000000000098",
+    "config": {
+        "parameter1": "default",
+        "parameter2": false
     }
 }
 ```
@@ -310,15 +286,13 @@ POST `/containers/v1/volumes`
 #### Clone request
 ```json
 {
-    "data": {  
-        "name":"volume2",
-        "size": 1073741824,
-        "base_snapshot_id":"063b5de80e54af7a6b0000000000000000000000f0",
-        "clone": true,
-        "config": {
-            "parameter1": "default",
-            "parameter2": false
-        }
+    "name":"volume2",
+    "size": 1073741824,
+    "base_snapshot_id":"063b5de80e54af7a6b0000000000000000000000f0",
+    "clone": true,
+    "config": {
+        "parameter1": "default",
+        "parameter2": false
     }
 }
 ```
@@ -326,17 +300,15 @@ POST `/containers/v1/volumes`
 #### Clone response
 ```json
 {
-    "data": {
-        "id": "063b5de80e54af7a6b0000000000000000000000d1",
-        "name": "volume2",
-        "size": 1073741824,
-        "published": false,
-        "base_snapshot_id": "063b5de80e54af7a6b0000000000000000000000f0",
-        "volume_group_id": "073b5de80e54af7a6b000000000000000000000099",
-        "config": {
-            "parameter1": "default",
-            "parameter2": false
-        }
+    "id": "063b5de80e54af7a6b0000000000000000000000d1",
+    "name": "volume2",
+    "size": 1073741824,
+    "published": false,
+    "base_snapshot_id": "063b5de80e54af7a6b0000000000000000000000f0",
+    "volume_group_id": "073b5de80e54af7a6b000000000000000000000099",
+    "config": {
+        "parameter1": "default",
+        "parameter2": false
     }
 }
 ```
@@ -348,25 +320,21 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 #### Request for iscsi access
 ```json
 {
-    "data": {
-        "host_uuid": "41302701-0196-420f-b319-834a79891db0",
-        "access_protocol": "iscsi"
-    }
+    "host_uuid": "41302701-0196-420f-b319-834a79891db0",
+    "access_protocol": "iscsi"
 }
 ```
 
 #### Response for single target IQN
 ```json
 {
-    "data": {
-        "access_protocol": "iscsi",
-        "discovery_ips": [
-            "172.89.82.10"
-        ],
-        "lun_id": 0,
-        "serial_number": "4349bd228896f1236c9ce9006592f26f",
-        "target_names": ["iqn.2007-11.com.nimblestorage:group-array1-g3b5de80e54af7a6b"]
-    }
+    "access_protocol": "iscsi",
+    "discovery_ips": [
+        "172.89.82.10"
+    ],
+    "lun_id": 0,
+    "serial_number": "4349bd228896f1236c9ce9006592f26f",
+    "target_names": ["iqn.2007-11.com.nimblestorage:group-array1-g3b5de80e54af7a6b"]
 }
 ```
  * Note that `chap_user` and `chap_password` must also be part of the response if CHAP details were provided as part of the Node definition.
@@ -375,36 +343,30 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
  #### Response for multiple target IQNs
 ```json
 {
-    "data": {
-        "access_protocol": "iscsi",
-        "discovery_ips": [
-            "172.89.82.10"
-        ],
-        "lun_id": 0,
-        "serial_number": "4349bd228896f1236c9ce9006592f26f",
-        "target_names": ["iqn.2000-05.com.3pardata:21210002ac01db31,iqn.2000-05.com.3pardata:21220002ac01db31"]
-    }
+    "access_protocol": "iscsi",
+    "discovery_ips": [
+        "172.89.82.10"
+    ],
+    "lun_id": 0,
+    "serial_number": "4349bd228896f1236c9ce9006592f26f",
+    "target_names": ["iqn.2000-05.com.3pardata:21210002ac01db31,iqn.2000-05.com.3pardata:21220002ac01db31"]
 }
 ```
 
 #### Request for fc access
 ```json
 {
-    "data": {
-        "host_uuid": "41302701-0196-420f-b319-834a79891db0",
-        "access_protocol": "fc"
-    }
+    "host_uuid": "41302701-0196-420f-b319-834a79891db0",
+    "access_protocol": "fc"
 }
 ```
 
 #### Response
 ```json
 {
-    "data": {
-        "access_protocol": "fc",
-        "lun_id": 0,
-        "serial_number": "4349bd228896f1236c9ce9006592f26f"
-    }
+    "access_protocol": "fc",
+    "lun_id": 0,
+    "serial_number": "4349bd228896f1236c9ce9006592f26f"
 }
 ```
 
@@ -415,9 +377,7 @@ PUT `/containers/v1/volumes/{id}/actions/unpublish`
 #### Request
 ```json
 {
-    "data": {
-        "host_uuid": "41302701-0196-420f-b319-834a79891db0"
-    }
+    "host_uuid": "41302701-0196-420f-b319-834a79891db0"
 }
 ```
 
@@ -460,24 +420,22 @@ GET http://localhost:8080/csp/containers/v1/snapshots?volume_id=067b5b0c6a3d0ece
 
 #### Response
 ```json
-{
-    "data": [
-        {
-            "id": "047b5b0c6a3d0ece06000000000000003000000010",
-            "name": "my-first-snapshot",
-            "size": 1073741824,
-            "description": "my first snapshot",
-            "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
-            "volume_name": "volume1",
-            "creation_time": 1565206041,
-            "ready_to_use": true,
-            "config": {
-                "parameter1": "default",
-                "parameter2": false
-            }
+[
+    {
+        "id": "047b5b0c6a3d0ece06000000000000003000000010",
+        "name": "my-first-snapshot",
+        "size": 1073741824,
+        "description": "my first snapshot",
+        "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
+        "volume_name": "volume1",
+        "creation_time": 1565206041,
+        "ready_to_use": true,
+        "config": {
+            "parameter1": "default",
+            "parameter2": false
         }
-    ]
-}
+    }
+]
 ```
 
 GET `/containers/v1/snapshots/?volume_id=063b5de80e54af7a6b0000000000000000000000d0&name=mySnapshot`
@@ -490,24 +448,22 @@ GET http://localhost:8080/csp/containers/v1/snapshots?volume_id=067b5b0c6a3d0ece
 
 #### Response
 ```json
-{
-    "data": [
-        {
-            "id": "047b5b0c6a3d0ece06000000000000003000000010",
-            "name": "my-first-snapshot",
-            "size": 1073741824,
-            "description": "my first snapshot",
-            "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
-            "volume_name": "volume1",
-            "creation_time": 1565206041,
-            "ready_to_use": true,
-            "config": {
-                "parameter1": "default",
-                "parameter2": false
-            }
+[
+    {
+        "id": "047b5b0c6a3d0ece06000000000000003000000010",
+        "name": "my-first-snapshot",
+        "size": 1073741824,
+        "description": "my first snapshot",
+        "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
+        "volume_name": "volume1",
+        "creation_time": 1565206041,
+        "ready_to_use": true,
+        "config": {
+            "parameter1": "default",
+            "parameter2": false
         }
-    ]
-}
+    }
+]
 ```
 
 GET `/containers/v1/snapshots/{id}`
@@ -521,19 +477,17 @@ GET http://localhost:8080/csp/containers/v1/snapshots/047b5b0c6a3d0ece0600000000
 #### Response
 ```json
 {
-    "data": {
-        "id": "047b5b0c6a3d0ece06000000000000003000000010",
-        "name": "my-first-snapshot",
-        "size": 1073741824,
-        "description": "my first snapshot",
-        "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
-        "volume_name": "volume1",
-        "creation_time": 1565206041,
-        "ready_to_use": true,
-        "config": {
-            "parameter1": "default",
-            "parameter2": false
-        }
+    "id": "047b5b0c6a3d0ece06000000000000003000000010",
+    "name": "my-first-snapshot",
+    "size": 1073741824,
+    "description": "my first snapshot",
+    "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
+    "volume_name": "volume1",
+    "creation_time": 1565206041,
+    "ready_to_use": true,
+    "config": {
+        "parameter1": "default",
+        "parameter2": false
     }
 }
 ```
@@ -545,14 +499,12 @@ POST `/containers/v1/snapshots`
 #### Request
 ```json
 {
-    "data": {
-        "name": "my-first-snapshot",
-        "description": "my first snapshot",
-        "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
-        "config": {
-            "parameter1": "default",
-            "parameter2": false
-        }
+    "name": "my-first-snapshot",
+    "description": "my first snapshot",
+    "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
+    "config": {
+        "parameter1": "default",
+        "parameter2": false
     }
 }
 ```
@@ -560,19 +512,17 @@ POST `/containers/v1/snapshots`
 #### Response
 ```json
 {
-    "data": {
-        "id": "047b5b0c6a3d0ece06000000000000003000000010",
-        "name": "my-first-snapshot",
-        "size": 1073741824,
-        "description": "my first snapshot",
-        "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
-        "volume_name": "volume1",
-        "creation_time": 1565206041,
-        "ready_to_use": true,
-        "config": {
-            "parameter1": "default",
-            "parameter2": false
-        }
+    "id": "047b5b0c6a3d0ece06000000000000003000000010",
+    "name": "my-first-snapshot",
+    "size": 1073741824,
+    "description": "my first snapshot",
+    "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
+    "volume_name": "volume1",
+    "creation_time": 1565206041,
+    "ready_to_use": true,
+    "config": {
+        "parameter1": "default",
+        "parameter2": false
     }
 }
 ```
