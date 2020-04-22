@@ -33,6 +33,44 @@
   } ],
   "paths" : {
     "/hosts" : {
+      "get" : {
+        "summary" : "Get all hosts used for container workloads",
+        "operationId" : "getHosts",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Host"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      },
       "post" : {
         "summary" : "Create host",
         "operationId" : "createHost",
@@ -81,12 +119,48 @@
             "description" : "Internal Server Error"
           }
         }
+      },
+      "delete" : {
+        "summary" : "Delete host",
+        "operationId" : "deleteHostByUuid",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "uuid",
+          "in" : "query",
+          "description" : "The uuid of the host to delete",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Host deleted"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
       }
     },
     "/hosts/{id}" : {
       "delete" : {
         "summary" : "Delete host",
-        "operationId" : "deleteHost",
+        "operationId" : "deleteHostById",
         "parameters" : [ {
           "name" : "x-array-ip",
           "in" : "header",
@@ -111,106 +185,6 @@
         "responses" : {
           "204" : {
             "description" : "Host deleted"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/snapshot_groups" : {
-      "get" : {
-        "summary" : "Get all snapshot groups used for container workloads",
-        "operationId" : "getSnapshotGroups",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "volume_group_id",
-          "in" : "query",
-          "description" : "Volume Group ID",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "array",
-                  "items" : {
-                    "$ref" : "#/components/schemas/SnapshotGroup"
-                  }
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request if volume group ID is not provided"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Create a snapshot group",
-        "operationId" : "createSnapshotGroup",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "description" : "A new snapshot group that is to be created",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SnapshotGroup"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/SnapshotGroup"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request"
           },
           "401" : {
             "description" : "Unauthorized"
@@ -311,10 +285,10 @@
         }
       }
     },
-    "/snapshots/{id}" : {
+    "/snapshot_groups" : {
       "get" : {
-        "summary" : "Get a snapshot with the given ID",
-        "operationId" : "getSnapshot",
+        "summary" : "Get all snapshot groups used for container workloads",
+        "operationId" : "getSnapshotGroups",
         "parameters" : [ {
           "name" : "x-array-ip",
           "in" : "header",
@@ -328,9 +302,9 @@
             "type" : "string"
           }
         }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Snapshot ID",
+          "name" : "volume_group_id",
+          "in" : "query",
+          "description" : "Volume Group ID",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -342,28 +316,28 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ContainerVolumeSnapshot"
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/SnapshotGroup"
+                  }
                 }
               }
             }
           },
           "400" : {
-            "description" : "Bad Request"
+            "description" : "Bad Request if volume group ID is not provided"
           },
           "401" : {
             "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not Found if snapshot ID cannot be found"
           },
           "500" : {
             "description" : "Internal Server Error"
           }
         }
       },
-      "delete" : {
-        "summary" : "Delete a snapshot",
-        "operationId" : "deleteSnapshot",
+      "post" : {
+        "summary" : "Create a snapshot group",
+        "operationId" : "createSnapshotGroup",
         "parameters" : [ {
           "name" : "x-array-ip",
           "in" : "header",
@@ -376,24 +350,34 @@
           "schema" : {
             "type" : "string"
           }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "The id of the snapshot to delete",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
         } ],
+        "requestBody" : {
+          "description" : "A new snapshot group that is to be created",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SnapshotGroup"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
-          "204" : {
-            "description" : "No Content"
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SnapshotGroup"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
           },
           "401" : {
             "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not found if snapshot ID is not found"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -511,10 +495,10 @@
         }
       }
     },
-    "/tokens/{id}" : {
-      "delete" : {
-        "summary" : "Delete the access token",
-        "operationId" : "delete",
+    "/snapshots/{id}" : {
+      "get" : {
+        "summary" : "Get a snapshot with the given ID",
+        "operationId" : "getSnapshot",
         "parameters" : [ {
           "name" : "x-array-ip",
           "in" : "header",
@@ -530,7 +514,56 @@
         }, {
           "name" : "id",
           "in" : "path",
-          "description" : "The id of the access token to delete",
+          "description" : "Snapshot ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ContainerVolumeSnapshot"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found if snapshot ID cannot be found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a snapshot",
+        "operationId" : "deleteSnapshot",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the snapshot to delete",
           "required" : true,
           "schema" : {
             "type" : "string"
@@ -538,13 +571,13 @@
         } ],
         "responses" : {
           "204" : {
-            "description" : "OK logged out"
+            "description" : "No Content"
           },
           "401" : {
             "description" : "Unauthorized"
           },
           "404" : {
-            "description" : "Not Found"
+            "description" : "Not found if snapshot ID is not found"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -583,6 +616,47 @@
           },
           "401" : {
             "description" : "Invalid username and/or password"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/tokens/{id}" : {
+      "delete" : {
+        "summary" : "Delete the access token",
+        "operationId" : "delete",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the access token to delete",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK logged out"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -1046,7 +1120,7 @@
     },
     "/volumes/{id}/actions/publish" : {
       "put" : {
-        "summary" : "Publishes a volume to the given node",
+        "summary" : "Publishes a volume to the given host",
         "operationId" : "publishVolume",
         "parameters" : [ {
           "name" : "x-array-ip",
@@ -1098,7 +1172,7 @@
             "description" : "Unauthorized"
           },
           "404" : {
-            "description" : "Not Found if volume ID or node UUID cannot be found"
+            "description" : "Not Found if volume ID or host UUID cannot be found"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -1108,7 +1182,7 @@
     },
     "/volumes/{id}/actions/unpublish" : {
       "put" : {
-        "summary" : "Unpublishes a volume from the given node",
+        "summary" : "Unpublishes a volume from the given host",
         "operationId" : "unpublishVolume",
         "parameters" : [ {
           "name" : "x-array-ip",
@@ -1153,7 +1227,7 @@
             "description" : "Unauthorized"
           },
           "404" : {
-            "description" : "Not Found if volume ID or node UUID cannot be found"
+            "description" : "Not Found if volume ID or host UUID cannot be found"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -1434,8 +1508,12 @@
           "serial_number" : {
             "type" : "string"
           },
-          "target_name" : {
-            "type" : "string"
+          "target_names" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
           },
           "access_protocol" : {
             "type" : "string",
@@ -1445,8 +1523,12 @@
             "type" : "integer",
             "format" : "int64"
           },
-          "discovery_ip" : {
-            "type" : "string"
+          "discovery_ips" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
           },
           "chap_user" : {
             "type" : "string"

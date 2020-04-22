@@ -21,6 +21,29 @@ security:
     ]
 paths:
   /hosts:
+    get:
+      tags:
+      - hosts
+      summary: Get all hosts used for container workloads
+      description: ''
+      operationId: getHosts
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters: [
+        ]
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Host'
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
     post:
       tags:
       - hosts
@@ -48,13 +71,35 @@ paths:
           description: Unauthorized
         500:
           description: Internal Server Error
+    delete:
+      tags:
+      - hosts
+      summary: Delete host
+      description: ''
+      operationId: deleteHostByUuid
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: uuid
+        in: query
+        required: false
+        type: string
+      responses:
+        204:
+          description: Host deleted
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
   /hosts/{id}:
     delete:
       tags:
       - hosts
       summary: Delete host
       description: ''
-      operationId: deleteHost
+      operationId: deleteHostById
       consumes:
       - application/json
       produces:
@@ -69,6 +114,59 @@ paths:
           description: Host deleted
         401:
           description: Unauthorized
+        500:
+          description: Internal Server Error
+  /snapshot_groups/{id}:
+    get:
+      tags:
+      - snapshot_groups
+      summary: Get a snapshot group with the given ID
+      description: ''
+      operationId: getSnapshotGroup
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/SnapshotGroup'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found if snapshot group ID cannot be found
+        500:
+          description: Internal Server Error
+    delete:
+      tags:
+      - snapshot_groups
+      summary: Delete a snapshot group
+      description: ''
+      operationId: deleteSnapshotGroup
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        204:
+          description: Snapshot group deleted
+        401:
+          description: Unauthorized
+        404:
+          description: Not found if snapshot group ID is not found
         500:
           description: Internal Server Error
   /snapshot_groups:
@@ -127,13 +225,13 @@ paths:
           description: Unauthorized
         500:
           description: Internal Server Error
-  /snapshot_groups/{id}:
+  /snapshots/{id}:
     get:
       tags:
-      - snapshot_groups
-      summary: Get a snapshot group with the given ID
+      - snapshots
+      summary: Get a snapshot with the given ID
       description: ''
-      operationId: getSnapshotGroup
+      operationId: getSnapshot
       consumes:
       - application/json
       produces:
@@ -147,21 +245,21 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/SnapshotGroup'
+            $ref: '#/definitions/ContainerVolumeSnapshot'
         400:
           description: Bad Request
         401:
           description: Unauthorized
         404:
-          description: Not Found if snapshot group ID cannot be found
+          description: Not Found if snapshot ID cannot be found
         500:
           description: Internal Server Error
     delete:
       tags:
-      - snapshot_groups
-      summary: Delete a snapshot group
+      - snapshots
+      summary: Delete a snapshot
       description: ''
-      operationId: deleteSnapshotGroup
+      operationId: deleteSnapshot
       consumes:
       - application/json
       produces:
@@ -173,11 +271,11 @@ paths:
         type: string
       responses:
         204:
-          description: Snapshot group deleted
+          description: Snapshot deleted
         401:
           description: Unauthorized
         404:
-          description: Not found if snapshot group ID is not found
+          description: Not found if snapshot ID is not found
         500:
           description: Internal Server Error
   /snapshots:
@@ -242,59 +340,6 @@ paths:
           description: Unauthorized
         500:
           description: Internal Server Error
-  /snapshots/{id}:
-    get:
-      tags:
-      - snapshots
-      summary: Get a snapshot with the given ID
-      description: ''
-      operationId: getSnapshot
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
-      responses:
-        200:
-          description: Success
-          schema:
-            $ref: '#/definitions/ContainerVolumeSnapshot'
-        400:
-          description: Bad Request
-        401:
-          description: Unauthorized
-        404:
-          description: Not Found if snapshot ID cannot be found
-        500:
-          description: Internal Server Error
-    delete:
-      tags:
-      - snapshots
-      summary: Delete a snapshot
-      description: ''
-      operationId: deleteSnapshot
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
-      responses:
-        204:
-          description: Snapshot deleted
-        401:
-          description: Unauthorized
-        404:
-          description: Not found if snapshot ID is not found
-        500:
-          description: Internal Server Error
   /tokens:
     post:
       tags:
@@ -314,7 +359,7 @@ paths:
         200:
           description: Success
           schema:
-            $ref: '#/definitions/SnapshotGroup'
+            $ref: '#/definitions/AccessToken'
         400:
           description: Bad Request
         401:
@@ -457,6 +502,63 @@ paths:
           description: Conflict if the volume group cannot be deleted
         500:
           description: Internal Server Error
+  /volumes:
+    get:
+      tags:
+      - volumes
+      summary: Get all volumes used for container workloads
+      description: ''
+      operationId: getVolumes
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: name
+        in: query
+        required: false
+        type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ContainerVolume'
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found if the volume name cannot be found
+        500:
+          description: Internal Server Error
+    post:
+      tags:
+      - volumes
+      summary: Create a new volume (or clone an existing snapshot/volume) for container
+        workloads
+      description: ''
+      operationId: createVolume
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        required: false
+        schema:
+          $ref: '#/definitions/ContainerVolume'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/ContainerVolume'
+        400:
+          description: Bad Request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
   /volumes/{id}:
     get:
       tags:
@@ -551,68 +653,11 @@ paths:
           description: Conflict if the volume cannot be deleted
         500:
           description: Internal Server Error
-  /volumes:
-    get:
-      tags:
-      - volumes
-      summary: Get all volumes used for container workloads
-      description: ''
-      operationId: getVolumes
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: name
-        in: query
-        required: false
-        type: string
-      responses:
-        200:
-          description: Success
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/ContainerVolume'
-        401:
-          description: Unauthorized
-        404:
-          description: Not Found if the volume name cannot be found
-        500:
-          description: Internal Server Error
-    post:
-      tags:
-      - volumes
-      summary: Create a new volume (or clone an existing snapshot/volume) for container
-        workloads
-      description: ''
-      operationId: createVolume
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - in: body
-        name: body
-        required: false
-        schema:
-          $ref: '#/definitions/ContainerVolume'
-      responses:
-        200:
-          description: Success
-          schema:
-            $ref: '#/definitions/ContainerVolume'
-        400:
-          description: Bad Request
-        401:
-          description: Unauthorized
-        500:
-          description: Internal Server Error
   /volumes/{id}/actions/publish:
     put:
       tags:
       - volumes
-      summary: Publishes a volume to the given node
+      summary: Publishes a volume to the given host
       description: ''
       operationId: publishVolume
       consumes:
@@ -639,14 +684,14 @@ paths:
         401:
           description: Unauthorized
         404:
-          description: Not found if volume ID or node UUID is not found
+          description: Not found if volume ID or host UUID is not found
         500:
           description: Internal Server Error
   /volumes/{id}/actions/unpublish:
     put:
       tags:
       - volumes
-      summary: Unpublishes a volume to the given node
+      summary: Unpublishes a volume to the given host
       description: ''
       operationId: unpublishVolume
       consumes:
@@ -673,7 +718,7 @@ paths:
         401:
           description: Unauthorized
         404:
-          description: Not found if volume ID or node UUID cannot be found
+          description: Not found if volume ID or host UUID cannot be found
         500:
           description: Internal Server Error
 securityDefinitions:
@@ -818,8 +863,11 @@ definitions:
     properties:
       serial_number:
         type: string
-      target_name:
-        type: string
+      target_names:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
       access_protocol:
         type: string
         enum:
@@ -828,8 +876,11 @@ definitions:
       lun_id:
         type: integer
         format: int64
-      discovery_ip:
-        type: string
+      discovery_ips:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
       chap_user:
         type: string
       chap_password:
