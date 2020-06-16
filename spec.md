@@ -578,14 +578,24 @@ GET http://localhost:8080/csp/containers/v1/volume_groups
             "name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
            }
         ],
-        "creation_time" : 1592249347
+        "creation_time" : 1592249347,
+        "config":
+        {
+            "parameter1": "default",
+            "parameter2": false
+        }
     },
     {
         "id" : "072265c9672660666b000000000000000000000007",
         "description": "my-second-volumegroup",
         "name" : "volumegroup-b5935dba-e01d-475c-b901-4eca0492a480",
         "volumes" : [ ],
-        "creation_time" : 1592265103
+        "creation_time" : 1592265103,
+        "config":
+        {
+            "parameter1": "default",
+            "parameter2": false
+        }
     }
 ]
 ```
@@ -615,7 +625,12 @@ GET http://localhost:8080/csp/containers/v1/volume_groups/072265c9672660666b0000
         "name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
         }
     ],
-    "creation_time" : 1592249347
+    "creation_time" : 1592249347,
+    "config":
+    {
+        "parameter1": "default",
+        "parameter2": false
+    }
 }
 ```
 
@@ -644,7 +659,12 @@ GET http://localhost:8080/csp/containers/v1/volume_groups?name=volumegroup-6c582
         "name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
         }
     ],
-    "creation_time" : 1592249347
+    "creation_time" : 1592249347,
+    "config":
+    {
+        "parameter1": "default",
+        "parameter2": false
+    }
 }
 ```
 
@@ -674,6 +694,11 @@ POST `/containers/v1/volume_groups`
 {
     "name": "new-new-volumegroup",
     "description": "my first volumegroup",
+    "config":
+    {
+        "parameter1": "default",
+        "parameter2": false
+    }
 }
 ```
 
@@ -685,7 +710,12 @@ POST `/containers/v1/volume_groups`
   "name" : "my-new-volumegroup",
   "description" : "my first volume group",
   "volumes" : [ ],
-  "creation_time" : 1592270415
+  "creation_time" : 1592270415,
+  "config":
+  {
+      "parameter1": "default",
+      "parameter2": false
+  }
 }
 ```
 
@@ -736,7 +766,12 @@ GET http://localhost:8080/csp/containers/v1/snapshot_groups?volume_group_id=0722
                   "volume_id" : "062265c9672660666b000000000000000000000005",
                   "volume_name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
             }
-        ]
+        ],
+        "config":
+        {
+            "parameter1": "default",
+            "parameter2": false
+        }
     }
 ]
 ```
@@ -766,7 +801,12 @@ GET http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666b00
             "volume_id" : "062265c9672660666b000000000000000000000005",
             "volume_name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
         }
-    ]
+    ],
+    "config":
+    {
+        "parameter1": "default",
+        "parameter2": false
+    }
 }
 ```
 
@@ -781,6 +821,11 @@ POST `/containers/v1/snapshot_groups`
 {
     "name": "my-first-snapshotgroup",
     "volume_group_id": "072265c9672660666b000000000000000000000005",
+    "config":
+    {
+        "parameter1": "default",
+        "parameter2": false
+    }
 }
 ```
 
@@ -801,7 +846,12 @@ POST `/containers/v1/snapshot_groups`
             "volume_id" : "062265c9672660666b000000000000000000000005",
             "volume_name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
         }
-    ]
+    ],
+    "config":
+    {
+        "parameter1": "default",
+        "parameter2": false
+    }
 }
 ```
 
@@ -891,6 +941,7 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 | | description | string | |  | X |
 | | creation_time (seconds) | number |  | | X |
 | | volumes | list\<Volume\> |  | | X |
+| | config | map[string]interface{} | | X | X |
 | SnapshotGroup | | | | | |
 | | id | string | | | X |
 | | name | string | X | X | X |
@@ -898,3 +949,4 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 | | volume_group_name | string | |  | X |
 | | creation_time (seconds) | number |  | | X |
 | | volumes | list\<Snapshot\> |  | | X |
+| | config | map[string]interface{} | | X | X |
