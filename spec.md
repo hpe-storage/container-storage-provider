@@ -339,7 +339,7 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 ```
  * Note that `chap_user` and `chap_password` must also be part of the response if CHAP details were provided as part of the Node definition.
  * `target_names`  should be returned as an array of target IQNs from CSP and converted to CSV format by CSI driver.
- 
+
  #### Response for multiple target IQNs
 ```json
 {
@@ -549,14 +549,276 @@ DELETE http://localhost:8080/csp/containers/v1/snapshots/047b5b0c6a3d0ece0600000
 ```
 
 ### `/containers/v1/volume_groups`
-This endpoint is used to manage the creation and deletion of volume groups that are used for container environments.  The following methods will be supported against this endpoint.
 
- * Definitions coming soon
+This endpoint is used to manage the creation and deletion of volume groups that are used for container environments.
+
+The following methods will be supported against this endpoint.
+
+GET `/containers/v1/volume_groups`
+
+ * Return all of the volumegroups used for containers on the array.
+
+#### Request
+```
+GET http://localhost:8080/csp/containers/v1/volume_groups
+```
+
+#### Response
+
+```json
+[
+    {
+        "id" : "072265c9672660666b000000000000000000000005",
+        "name" : "volumegroup-6c58267d-b324-4b7f-88fc-6597bc62ff85",
+        "description": "my-first-volumegroup",
+        "volumes" :
+        [
+           {
+            "id" : "062265c9672660666b000000000000000000000005",
+            "name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
+           }
+        ],
+        "creation_time" : 1592249347
+    },
+    {
+        "id" : "072265c9672660666b000000000000000000000007",
+        "description": "my-second-volumegroup",
+        "name" : "volumegroup-b5935dba-e01d-475c-b901-4eca0492a480",
+        "volumes" : [ ],
+        "creation_time" : 1592265103
+    }
+]
+```
+
+GET `/containers/v1/volume_groups/{id}`
+
+ * Return the volumegroup identified by the given id.
+ * Should return HTTP 404 (Not Found) when a volumegroup with that id cannot be found
+
+#### Request
+
+```
+GET http://localhost:8080/csp/containers/v1/volume_groups/072265c9672660666b000000000000000000000005
+```
+
+#### Response
+
+```json
+{
+    "id" : "072265c9672660666b000000000000000000000005",
+    "description": "my-first-volumegroup",
+    "name" : "volumegroup-6c58267d-b324-4b7f-88fc-6597bc62ff85",
+    "volumes" :
+    [
+        {
+        "id" : "062265c9672660666b000000000000000000000005",
+        "name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
+        }
+    ],
+    "creation_time" : 1592249347
+}
+```
+
+GET `/containers/v1/volume_groups?name=volumeGroupName`
+
+ * Return the volumegroups with the given name.
+ * Should return HTTP 404 (Not Found) when a volumegroup with that name cannot be found
+
+#### Request
+
+```
+GET http://localhost:8080/csp/containers/v1/volume_groups?name=volumegroup-6c58267d-b324-4b7f-88fc-6597bc62ff85
+```
+
+#### Response
+
+```json
+{
+    "id" : "072265c9672660666b000000000000000000000005",
+    "name" : "volumegroup-6c58267d-b324-4b7f-88fc-6597bc62ff85",
+    "description": "my-first-volumegroup",
+    "volumes" :
+    [
+        {
+        "id" : "062265c9672660666b000000000000000000000005",
+        "name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
+        }
+    ],
+    "creation_time" : 1592249347
+}
+```
+
+#### Request with unknown volumegroup name
+
+```
+GET http://localhost:8080/csp/containers/v1/volume_groups?name=bob
+```
+
+#### Response
+
+```json
+{
+  "code" : "Not Found",
+  "message" : "Volume group with name bob not found."
+}
+```
+
+POST `/containers/v1/volume_groups`
+
+ * Create a new volumegroup.
+ * The body must contain the new volumegroup definition
+
+#### Create Request
+
+```json
+{
+    "name": "new-new-volumegroup",
+    "description": "my first volumegroup",
+}
+```
+
+#### Create Response
+
+```json
+ {
+  "id" : "072265c9672660666b00000000000000000000000a",
+  "name" : "my-new-volumegroup",
+  "description" : "my first volume group",
+  "volumes" : [ ],
+  "creation_time" : 1592270415
+}
+```
+
+DELETE `/containers/v1/volume_groups/{id}`
+
+ * Delete the volumegroup identified
+
+```
+DELETE http://localhost:8080/csp/containers/v1/volume_groups/072265c9672660666b00000000000000000000000a
+```
+#### Response
+```
+204 No Content
+```
 
 ### `/containers/v1/snapshot_groups`
-This endpoint is used to manage the creation and deletion of snapshot groups that are used for container environments.  The following methods will be supported against this endpoint.
 
- * Definitions coming soon
+This endpoint is used to manage the creation and deletion of snapshot groups that are used for container environments.
+
+The following methods will be supported against this endpoint.
+
+GET `/containers/v1/snapshot_groups?volume_group_id=072265c9672660666b000000000000000000000005`
+
+ * Return all of the snapshotgroups of the `volume_group_id` used for containers on the array.
+ * `volume_group_id` is mandatory
+
+#### Request
+
+```
+GET http://localhost:8080/csp/containers/v1/snapshot_groups?volume_group_id=072265c9672660666b000000000000000000000005
+```
+
+#### Response
+
+```json
+[
+    {
+        "id" : "052265c9672660666b000000000000000000000001",
+        "name" : "snapshotgroup-3b3062ac-3ef4-4db2-a7a8-1bad2270a1c8",
+        "volume_group_id" : "072265c9672660666b000000000000000000000005",
+        "volume_group_name" : "volumegroup-6c58267d-b324-4b7f-88fc-6597bc62ff85",
+        "creation_time" : 1592249883,
+        "snapshots" :
+        [
+             {
+                  "id" : "042265c9672660666b000000000000000900000001",
+                  "name" : "snapshotgroup-3b3062ac-3ef4-4db2-a7a8-1bad2270a1c8",
+                  "volume_id" : "062265c9672660666b000000000000000000000005",
+                  "volume_name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
+            }
+        ]
+    }
+]
+```
+
+GET `/containers/v1/snapshot_groups/{id}`
+ * Return the snapshotgroup identified by the given id.
+
+#### Request
+```
+GET http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666b000000000000000000000001
+```
+
+#### Response
+
+```json
+{
+    "id" : "052265c9672660666b000000000000000000000001",
+    "name" : "snapshotgroup-3b3062ac-3ef4-4db2-a7a8-1bad2270a1c8",
+    "volume_group_id" : "072265c9672660666b000000000000000000000005",
+    "volume_group_name" : "volumegroup-6c58267d-b324-4b7f-88fc-6597bc62ff85",
+    "creation_time" : 1592249883,
+    "snapshots" :
+    [
+        {
+            "id" : "042265c9672660666b000000000000000900000001",
+            "name" : "snapshotgroup-3b3062ac-3ef4-4db2-a7a8-1bad2270a1c8",
+            "volume_id" : "062265c9672660666b000000000000000000000005",
+            "volume_name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
+        }
+    ]
+}
+```
+
+POST `/containers/v1/snapshot_groups`
+
+ * Create a new snapshotgroup.
+ * The body must contain the new snapshotgroup definition
+
+#### Request
+
+```json
+{
+    "name": "my-first-snapshotgroup",
+    "volume_group_id": "072265c9672660666b000000000000000000000005",
+}
+```
+
+#### Response
+
+```json
+{
+    "id" : "052265c9672660666b000000000000000000000003",
+    "name" : "my-first-snapshotgroup",
+    "volume_group_id" : "072265c9672660666b000000000000000000000005",
+    "volume_group_name" : "volumegroup-6c58267d-b324-4b7f-88fc-6597bc62ff85",
+    "creation_time" : 1592277183,
+    "snapshots" :
+    [
+        {
+            "id" : "042265c9672660666b000000000000000900000003",
+            "name" : "my-first-snapshotgroup",
+            "volume_id" : "062265c9672660666b000000000000000000000005",
+            "volume_name" : "pvc-cf76e03f-c7e6-4507-8c89-189f9ece058a"
+        }
+    ]
+}
+```
+
+DELETE `/containers/v1/snapshot_groups`
+
+ * Delete the snapshotgroup identified
+
+#### Request to delete a snapshotgroup
+```
+DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666b000000000000000000000003
+```
+
+#### Response
+
+```
+204 No Content
+```
 
 ## Object sets
 
@@ -566,6 +828,8 @@ This endpoint is used to manage the creation and deletion of snapshot groups tha
 | hosts | /containers/v1/hosts | | post<br>delete | |
 | volumes | /containers/v1/volumes | name | get<br>put<br>post<br>delete | publish<br>unpublish |
 | snapshots | /containers/v1/snapshots | volume_id<br>name | get<br>post<br>delete | |
+| volume_groups | /containers/v1/volume_groups | name | get<br>post<br>delete | |
+| snapshot_groups | /containers/v1/snapshot_groups | volume_group_id | get<br>post<br>delete | |
 
 ## Objects
 
@@ -573,29 +837,29 @@ This endpoint is used to manage the creation and deletion of snapshot groups tha
 | ------- | ---------- | ---- | --------- | ----- | ------ |
 | Token | | | | | |
 | | id | string | | | X |
-| | username | string | X | X | X | 
-| | password | string | X | X | | 
-| | array_ip | string | when running on cluster | X | | 
+| | username | string | X | X | X |
+| | password | string | X | X | |
+| | array_ip | string | when running on cluster | X | |
 | | session_token (used for all future authentication) | string | X | | X |
 | | creation_time | number | | | X |
 | | expiry_time | number | | | X |
 | Host | | | | | |
 | | id | string | | | X |
-| | uuid | string | X | X | X | 
-| | name | string | X | X | X | 
-| | iqns | list\<string\> | when wwpns are not specified | X | X | 
-| | wwpns | list\<string\> | when iqns are not specified | X | X | 
-| | networks | list\<string\> | when iqns are specified | X | X | 
+| | uuid | string | X | X | X |
+| | name | string | X | X | X |
+| | iqns | list\<string\> | when wwpns are not specified | X | X |
+| | wwpns | list\<string\> | when iqns are not specified | X | X |
+| | networks | list\<string\> | when iqns are specified | X | X |
 | | chap_user | string |  | X | X |
 | | chap_password | string | | X | X |
 | Volume | | | | | |
 | | id | string | | | X |
-| | name | string | X | X | X | 
-| | size | number | X | X | X | 
-| | description | string | | X | X | 
-| | base_snapshot_id | string | | X | X | 
+| | name | string | X | X | X |
+| | size | number | X | X | X |
+| | description | string | | X | X |
+| | base_snapshot_id | string | | X | X |
 | | clone | boolean |  | X | X |
-| | volume_group_id (TBD) | string | | X | X |
+| | volume_group_id | string | | X | X |
 | | published | boolean |  | | X |
 | | config | map[string]interface{} | | | X |
 | PublishOptions | | | | | |
@@ -613,11 +877,24 @@ This endpoint is used to manage the creation and deletion of snapshot groups tha
 | | host_uuid | string | X | X | |
 | Snapshot | | | | | |
 | | id | string | | | X |
-| | name | string | X | X | X | 
-| | size | number | | | X | 
-| | description | string | | X | X | 
+| | name | string | X | X | X |
+| | size | number | | | X |
+| | description | string | | X | X |
 | | volume_id | string | X | X | X |
 | | volume_name | string | | | X |
 | | creation_time (seconds) | number | X | | X |
 | | ready_to_use | boolean | X | | X |
 | | config | map[string]interface{} | | X | X |
+| VolumeGroup | | | | | |
+| | id | string | | | X |
+| | name | string | X | X | X |
+| | description | string | |  | X |
+| | creation_time (seconds) | number |  | | X |
+| | volumes | list\<Volume\> |  | | X |
+| SnapshotGroup | | | | | |
+| | id | string | | | X |
+| | name | string | X | X | X |
+| | volume_group_id | string | | X | X |
+| | volume_group_name | string | |  | X |
+| | creation_time (seconds) | number |  | | X |
+| | volumes | list\<Snapshot\> |  | | X |
