@@ -332,7 +332,8 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
     "discovery_ips": [
         "172.89.82.10"
     ],
-    "lun_id": [0,1],
+    "lun_id": 3,
+    "peer_lun_ids": [4],
     "serial_number": "4349bd228896f1236c9ce9006592f26f",
     "target_names": ["iqn.2007-11.com.nimblestorage:group-array1-g3b5de80e54af7a6b"]
 }
@@ -347,7 +348,8 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
     "discovery_ips": [
         "172.89.82.10"
     ],
-    "lun_id": [0,1],
+    "lun_id": 3,
+    "peer_lun_ids": [4],
     "serial_number": "4349bd228896f1236c9ce9006592f26f",
     "target_names": ["iqn.2000-05.com.3pardata:21210002ac01db31,iqn.2000-05.com.3pardata:21220002ac01db31"]
 }
@@ -365,7 +367,8 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 ```json
 {
     "access_protocol": "fc",
-    "lun_id": [0,1],
+    "lun_id": 0,
+    "peer_lun_ids": [4],
     "serial_number": "4349bd228896f1236c9ce9006592f26f"
 }
 ```
@@ -918,7 +921,8 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 | PublishInfo | | | | | |
 | | serial_number | string | X | | X |
 | | access_protocol | string | X | | X |
-| | lun_id | list\<number\> | X | | X |
+| | lun_id | number | X | | X |
+| | peer_lun_ids | list\<number\> | X | | X|
 | | target_names | list\<string\> | only for iscsi | | X |
 | | discovery_ips | list\<string\> | only for iscsi | | X |
 | | chap_user | string | only for iscsi | | X |
