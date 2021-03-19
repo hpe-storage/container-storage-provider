@@ -332,7 +332,8 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
     "discovery_ips": [
         "172.89.82.10"
     ],
-    "lun_id": 0,
+    "lun_id": 3,
+    "PeerArrayDetails": [{"lun_id":1,"target_names":["iqn.2000-05.com.3pardata:20210002ac01db2c","iqn.2000-05.com.3pardata:21210002ac01db2c"],"discovery_ips":["1.1.1.1","2.2.2.2"]}],
     "serial_number": "4349bd228896f1236c9ce9006592f26f",
     "target_names": ["iqn.2007-11.com.nimblestorage:group-array1-g3b5de80e54af7a6b"]
 }
@@ -347,7 +348,8 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
     "discovery_ips": [
         "172.89.82.10"
     ],
-    "lun_id": 0,
+    "lun_id": 3,
+    "PeerArrayDetails": [{"lun_id":1,"target_names":["iqn.2000-05.com.3pardata:20210002ac01db2c","iqn.2000-05.com.3pardata:21210002ac01db2c"],"discovery_ips":["1.1.1.1","2.2.2.2"]}],
     "serial_number": "4349bd228896f1236c9ce9006592f26f",
     "target_names": ["iqn.2000-05.com.3pardata:21210002ac01db31,iqn.2000-05.com.3pardata:21220002ac01db31"]
 }
@@ -366,6 +368,7 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 {
     "access_protocol": "fc",
     "lun_id": 0,
+    "PeerArrayDetails": [{"lun_id":1}],
     "serial_number": "4349bd228896f1236c9ce9006592f26f"
 }
 ```
@@ -919,10 +922,15 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 | | serial_number | string | X | | X |
 | | access_protocol | string | X | | X |
 | | lun_id | number | X | | X |
+| | PeerArrayDetails | list\<SecondaryLunInfo\> | X | | X|
 | | target_names | list\<string\> | only for iscsi | | X |
 | | discovery_ips | list\<string\> | only for iscsi | | X |
 | | chap_user | string | only for iscsi | | X |
 | | chap_password | string | only for iscsi | | X |
+|  SecondaryLunInfo | | | | | |
+| | lun_id | number | X | X |
+| | target_names | list\<string\> | only for iscsi | | X |
+| | discovery_ips | list\<string\> | only for iscsi | | X |
 | UnpublishOptions | | | | | |
 | | host_uuid | string | X | X | |
 | Snapshot | | | | | |
