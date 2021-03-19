@@ -118,7 +118,9 @@ GET http://localhost:8080/csp/containers/v1/volumes
         "config": {
             "parameter1": "default",
             "parameter2": false
-        }
+        },
+        "used_bytes" : 12570624,
+        "free_bytes" : 1061171200
     },
     {
         "id": "067b5b0c6a3d0ece0600000000000000000000001d",
@@ -129,7 +131,9 @@ GET http://localhost:8080/csp/containers/v1/volumes
         "config": {
             "parameter1": "default",
             "parameter2": false
-        }
+        },
+        "used_bytes" : 12570624,
+        "free_bytes" : 1061171200
     }
 ]
 ```
@@ -154,7 +158,9 @@ GET http://localhost:8080/csp/containers/v1/volumes/067b5b0c6a3d0ece060000000000
     "config": {
         "parameter1": "default",
         "parameter2": false
-    }
+    },
+    "used_bytes" : 12570624,
+    "free_bytes" : 1061171200
 }
 ```
 
@@ -181,7 +187,9 @@ GET http://localhost:8080/csp/containers/v1/volumes?name=volume1
             "parameter2": false
         },
         "base_snapshot_id": "",
-        "volume_group_id": ""
+        "volume_group_id": "",
+        "used_bytes" : 12570624,
+        "free_bytes" : 1061171200
     }
 ]
 ```
@@ -224,7 +232,9 @@ PUT `/containers/v1/volumes/{id}`
     "config": {
         "parameter1": "default",
         "parameter2": false
-    }
+    },
+    "used_bytes" : 12570624,
+    "free_bytes" : 1061171200
 }
 ```
 
@@ -915,6 +925,8 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 | | volume_group_id | string | | X | X |
 | | published | boolean |  | | X |
 | | config | map[string]interface{} | | | X |
+| | free_bytes | number | | | X |
+| | used_bytes | number | | | X |
 | PublishOptions | | | | | |
 | | host_uuid | string | X | X | |
 | | access_protocol | string | X | X | |
