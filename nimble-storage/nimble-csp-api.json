@@ -195,6 +195,153 @@
         }
       }
     },
+    "/replication_partners" : {
+      "get" : {
+        "summary" : "Get all replication partners used for container workloads",
+        "operationId" : "getReplicationPartners",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "query",
+          "description" : "Replication partner name",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ContainerReplicationPartner"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found if the replication partner name cannot be found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/snapshot_groups/{id}" : {
+      "get" : {
+        "summary" : "Get a snapshot group with the given ID",
+        "operationId" : "getSnapshotGroup",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Snapshot group ID",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SnapshotGroup"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found if snapshot group ID cannot be found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a snapshot group",
+        "operationId" : "deleteSnapshotGroup",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the snapshot group to delete",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "delete_downstream",
+          "in" : "query",
+          "description" : "Indicates if this is the downstream snapshot group to be deleted",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "No Content"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not found if snapshot group ID is not found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
     "/snapshot_groups" : {
       "get" : {
         "summary" : "Get all snapshot groups used for container workloads",
@@ -288,96 +435,6 @@
           },
           "401" : {
             "description" : "Unauthorized"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/snapshot_groups/{id}" : {
-      "get" : {
-        "summary" : "Get a snapshot group with the given ID",
-        "operationId" : "getSnapshotGroup",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Snapshot group ID",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/SnapshotGroup"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not Found if snapshot group ID cannot be found"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "Delete a snapshot group",
-        "operationId" : "deleteSnapshotGroup",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "The id of the snapshot group to delete",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "No Content"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not found if snapshot group ID is not found"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -856,6 +913,68 @@
         }
       }
     },
+    "/volumes/{id}/actions/publish" : {
+      "put" : {
+        "summary" : "Publishes a volume to the given host",
+        "operationId" : "publishVolume",
+        "parameters" : [ {
+          "name" : "x-array-ip",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "x-auth-token",
+          "in" : "header",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of the volume to publish",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "The publish options for the volume",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PublishOptions"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PublishInfo"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "Not Found if volume ID or host UUID cannot be found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
     "/volumes" : {
       "get" : {
         "summary" : "Get all volumes used for container workloads",
@@ -1118,68 +1237,6 @@
         }
       }
     },
-    "/volumes/{id}/actions/publish" : {
-      "put" : {
-        "summary" : "Publishes a volume to the given host",
-        "operationId" : "publishVolume",
-        "parameters" : [ {
-          "name" : "x-array-ip",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "x-auth-token",
-          "in" : "header",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "id",
-          "in" : "path",
-          "description" : "The id of the volume to publish",
-          "required" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
-        "requestBody" : {
-          "description" : "The publish options for the volume",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/PublishOptions"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PublishInfo"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Unauthorized"
-          },
-          "404" : {
-            "description" : "Not Found if volume ID or host UUID cannot be found"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      }
-    },
     "/volumes/{id}/actions/unpublish" : {
       "put" : {
         "summary" : "Unpublishes a volume from the given host",
@@ -1276,6 +1333,55 @@
           }
         }
       },
+      "ContainerReplicationPartner" : {
+        "type" : "object",
+        "properties" : {
+          "alive" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "partner_name" : {
+            "type" : "string"
+          },
+          "repl_direction" : {
+            "type" : "string",
+            "enum" : [ "upstream", "downstream", "none", "bi_directional" ]
+          },
+          "is_alive" : {
+            "type" : "boolean"
+          },
+          "cfg_status" : {
+            "type" : "string",
+            "enum" : [ "N/A", "No", "Yes" ]
+          },
+          "volume_collection_list" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/NsVolumeCollectionSummary"
+            }
+          }
+        }
+      },
+      "NsVolumeCollectionSummary" : {
+        "type" : "object",
+        "properties" : {
+          "populatedFields" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      },
       "ContainerVolumeSnapshot" : {
         "type" : "object",
         "properties" : {
@@ -1352,7 +1458,27 @@
         }
       },
       "SnapshotGroupConfig" : {
-        "type" : "object"
+        "type" : "object",
+        "properties" : {
+          "replicate_to" : {
+            "type" : "string"
+          },
+          "is_complete" : {
+            "type" : "boolean"
+          },
+          "repl_status" : {
+            "type" : "string",
+            "enum" : [ "fail", "in_progress", "pending", "complete" ]
+          },
+          "repl_complete_time" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "repl_start_time" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
       },
       "AccessToken" : {
         "type" : "object",
@@ -1407,11 +1533,42 @@
           "config" : {
             "$ref" : "#/components/schemas/VolumeConfig"
           },
+          "snaphotUsedBytes" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "pool_name" : {
+            "type" : "string"
+          },
           "base_snapshot_id" : {
             "type" : "string"
           },
           "volume_group_id" : {
             "type" : "string"
+          },
+          "used_bytes" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "free_bytes" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "reservation_ratio" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "data_compression_saved_bytes" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "data_deduplication_saved_bytes" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "snapshot_used_bytes" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },
@@ -1440,9 +1597,6 @@
             "type" : "string"
           },
           "perf_policy" : {
-            "type" : "string"
-          },
-          "protection_template" : {
             "type" : "string"
           },
           "dedupe_enabled" : {
@@ -1525,6 +1679,13 @@
           "replication_type" : {
             "type" : "string",
             "enum" : [ "synchronous", "periodic_snapshot" ]
+          },
+          "protection_template" : {
+            "type" : "string"
+          },
+          "protection_type" : {
+            "type" : "string",
+            "enum" : [ "unprotected", "remote", "local" ]
           }
         }
       },

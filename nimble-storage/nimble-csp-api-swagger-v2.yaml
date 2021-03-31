@@ -11,6 +11,7 @@ info:
 basePath: /containers/v1
 tags:
 - name: hosts
+- name: replication_partners
 - name: snapshot_groups
 - name: snapshots
 - name: tokens
@@ -116,6 +117,35 @@ paths:
           description: Unauthorized
         500:
           description: Internal Server Error
+  /replication_partners:
+    get:
+      tags:
+      - replication_partners
+      summary: Get all replication partners used for container workloads
+      description: ''
+      operationId: getReplicationPartners
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: name
+        in: query
+        required: false
+        type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ContainerReplicationPartner'
+        401:
+          description: Unauthorized
+        404:
+          description: Replication partner name cannot be found
+        500:
+          description: Internal Server Error
   /snapshot_groups:
     get:
       tags:
@@ -216,6 +246,10 @@ paths:
         in: path
         required: true
         type: string
+      - name: delete_downstream
+        in: query
+        required: false
+        type: boolean
       responses:
         204:
           description: Snapshot group deleted
@@ -340,6 +374,29 @@ paths:
           description: Not found if snapshot ID is not found
         500:
           description: Internal Server Error
+  /tokens/{id}:
+    delete:
+      tags:
+      - tokens
+      operationId: delete
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        204:
+          description: OK logged out
+        401:
+          description: Unauthorized
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
   /tokens:
     post:
       tags:
@@ -368,29 +425,6 @@ paths:
           description: Internal Server Error
       security: [
         ]
-  /tokens/{id}:
-    delete:
-      tags:
-      - tokens
-      operationId: delete
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
-      responses:
-        204:
-          description: OK logged out
-        401:
-          description: Unauthorized
-        404:
-          description: Not Found
-        500:
-          description: Internal Server Error
   /volume_groups:
     get:
       tags:
@@ -753,6 +787,46 @@ definitions:
         type: string
       chap_password:
         type: string
+  ContainerReplicationPartner:
+    type: object
+    properties:
+      alive:
+        type: boolean
+      id:
+        type: string
+      partner_name:
+        type: string
+      repl_direction:
+        type: string
+        enum:
+        - upstream
+        - downstream
+        - none
+        - bi_directional
+      is_alive:
+        type: boolean
+      cfg_status:
+        type: string
+        enum:
+        - N/A
+        - 'No'
+        - 'Yes'
+      volume_collection_list:
+        type: array
+        items:
+          $ref: '#/definitions/NsVolumeCollectionSummary'
+  NsVolumeCollectionSummary:
+    type: object
+    properties:
+      populatedFields:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+      id:
+        type: string
+      name:
+        type: string
   ContainerVolumeSnapshot:
     type: object
     properties:
@@ -804,6 +878,24 @@ definitions:
         format: int64
   SnapshotGroupConfig:
     type: object
+    properties:
+      replicate_to:
+        type: string
+      is_complete:
+        type: boolean
+      repl_status:
+        type: string
+        enum:
+        - fail
+        - in_progress
+        - pending
+        - complete
+      repl_complete_time:
+        type: integer
+        format: int64
+      repl_start_time:
+        type: integer
+        format: int64
   AccessToken:
     type: object
     properties:
@@ -843,10 +935,33 @@ definitions:
         type: boolean
       config:
         $ref: '#/definitions/VolumeConfig'
+      snaphotUsedBytes:
+        type: integer
+        format: int64
+      pool_name:
+        type: string
       base_snapshot_id:
         type: string
       volume_group_id:
         type: string
+      used_bytes:
+        type: integer
+        format: int64
+      free_bytes:
+        type: integer
+        format: int64
+      reservation_ratio:
+        type: number
+        format: float
+      data_compression_saved_bytes:
+        type: integer
+        format: int64
+      data_deduplication_saved_bytes:
+        type: integer
+        format: int64
+      snapshot_used_bytes:
+        type: integer
+        format: int64
   VolumeConfig:
     type: object
     additionalProperties: {
