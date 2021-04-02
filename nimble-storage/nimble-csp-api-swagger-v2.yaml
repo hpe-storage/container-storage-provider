@@ -790,6 +790,16 @@ definitions:
   ContainerReplicationPartner:
     type: object
     properties:
+      cgfSyncStatus:
+        type: string
+        enum:
+        - N/A
+        - 'No'
+        - 'Yes'
+      volumeCollectionList:
+        type: array
+        items:
+          $ref: '#/definitions/NsVolumeCollectionSummary'
       alive:
         type: boolean
       id:
@@ -805,16 +815,6 @@ definitions:
         - bi_directional
       is_alive:
         type: boolean
-      cfg_status:
-        type: string
-        enum:
-        - N/A
-        - 'No'
-        - 'Yes'
-      volume_collection_list:
-        type: array
-        items:
-          $ref: '#/definitions/NsVolumeCollectionSummary'
   NsVolumeCollectionSummary:
     type: object
     properties:
@@ -987,6 +987,11 @@ definitions:
         format: int64
   VolumeGroupConfig:
     type: object
+    properties:
+      replication_partner:
+        type: string
+      protection_template:
+        type: string
   PublishInfo:
     type: object
     properties:

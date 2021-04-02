@@ -1199,6 +1199,20 @@
     "ContainerReplicationPartner": {
       "type": "object",
       "properties": {
+        "cgfSyncStatus": {
+          "type": "string",
+          "enum": [
+            "N/A",
+            "No",
+            "Yes"
+          ]
+        },
+        "volumeCollectionList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NsVolumeCollectionSummary"
+          }
+        },
         "alive": {
           "type": "boolean"
         },
@@ -1219,20 +1233,6 @@
         },
         "is_alive": {
           "type": "boolean"
-        },
-        "cfg_status": {
-          "type": "string",
-          "enum": [
-            "N/A",
-            "No",
-            "Yes"
-          ]
-        },
-        "volume_collection_list": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/NsVolumeCollectionSummary"
-          }
         }
       }
     },
@@ -1479,7 +1479,15 @@
       }
     },
     "VolumeGroupConfig": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "replication_partner": {
+          "type": "string"
+        },
+        "protection_template": {
+          "type": "string"
+        }
+      }
     },
     "PublishInfo": {
       "type": "object",
