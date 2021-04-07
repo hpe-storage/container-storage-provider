@@ -388,7 +388,7 @@
             "description" : "Unauthorized"
           },
           "404" : {
-            "description" : "Not Found if snapshot group ID cannot be found"
+            "description" : "Snapshot group ID not found"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -419,13 +419,23 @@
             "type" : "string"
           }
         }, {
-          "name" : "delete_downstream",
+          "name" : "replication_partner",
           "in" : "query",
-          "description" : "Indicates if this is the downstream snapshot group to be deleted",
+          "description" : "The name of a downstream replication partner from which to delete the snapshot group, with no effect upstream",
           "schema" : {
-            "type" : "boolean"
+            "type" : "string"
           }
         } ],
+        "requestBody" : {
+          "description" : "List of IDs of the snapshots in the downstream snapshot group",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SnapshotGroup"
+              }
+            }
+          }
+        },
         "responses" : {
           "204" : {
             "description" : "No Content"
@@ -434,7 +444,7 @@
             "description" : "Unauthorized"
           },
           "404" : {
-            "description" : "Not found if snapshot group ID is not found"
+            "description" : "Snapshot group ID not found"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -444,7 +454,7 @@
     },
     "/snapshots" : {
       "get" : {
-        "summary" : "Get all snapshots for the provided volume",
+        "summary" : "Get snapshots for the provided volume",
         "operationId" : "getSnapshots",
         "parameters" : [ {
           "name" : "x-array-ip",
@@ -469,7 +479,7 @@
         }, {
           "name" : "name",
           "in" : "query",
-          "description" : "Snapshot name",
+          "description" : "The name of a particular snapshot to get",
           "schema" : {
             "type" : "string"
           }
@@ -642,6 +652,44 @@
         }
       }
     },
+    "/tokens" : {
+      "post" : {
+        "summary" : "Create an access token",
+        "operationId" : "createToken",
+        "requestBody" : {
+          "description" : "An access token to grant access to the CSP",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AccessToken"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessToken"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Invalid username and/or password"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
     "/tokens/{id}" : {
       "delete" : {
         "summary" : "Delete the access token",
@@ -676,44 +724,6 @@
           },
           "404" : {
             "description" : "Not Found"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/tokens" : {
-      "post" : {
-        "summary" : "Create an access token",
-        "operationId" : "createToken",
-        "requestBody" : {
-          "description" : "An access token to grant access to the CSP",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/AccessToken"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Invalid username and/or password"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -1351,34 +1361,6 @@
           },
           "is_alive" : {
             "type" : "boolean"
-          },
-          "cfg_status" : {
-            "type" : "string",
-            "enum" : [ "N/A", "No", "Yes" ]
-          },
-          "volume_group_list" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/NsVolumeCollectionSummary"
-            }
-          }
-        }
-      },
-      "NsVolumeCollectionSummary" : {
-        "type" : "object",
-        "properties" : {
-          "populatedFields" : {
-            "uniqueItems" : true,
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "id" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
           }
         }
       },

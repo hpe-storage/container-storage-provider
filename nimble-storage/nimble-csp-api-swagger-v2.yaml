@@ -228,7 +228,7 @@ paths:
         401:
           description: Unauthorized
         404:
-          description: Not Found if snapshot group ID cannot be found
+          description: Snapshot group ID not found
         500:
           description: Internal Server Error
     delete:
@@ -246,24 +246,33 @@ paths:
         in: path
         required: true
         type: string
-      - name: delete_downstream
+      - name: replication_partner
         in: query
         required: false
-        type: boolean
+        type: string
+      - in: body
+        name: body
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
       responses:
         204:
           description: Snapshot group deleted
+        400:
+          description: Bad Request
         401:
           description: Unauthorized
         404:
-          description: Not found if snapshot group ID is not found
+          description: Snapshot group ID not found
         500:
           description: Internal Server Error
   /snapshots:
     get:
       tags:
       - snapshots
-      summary: Get all snapshots for the provided volume
+      summary: Get snapshots for the provided volume
       description: ''
       operationId: getSnapshots
       consumes:
@@ -790,16 +799,6 @@ definitions:
   ContainerReplicationPartner:
     type: object
     properties:
-      cgfSyncStatus:
-        type: string
-        enum:
-        - N/A
-        - 'No'
-        - 'Yes'
-      volumeCollectionList:
-        type: array
-        items:
-          $ref: '#/definitions/NsVolumeCollectionSummary'
       alive:
         type: boolean
       id:
@@ -815,18 +814,6 @@ definitions:
         - bi_directional
       is_alive:
         type: boolean
-  NsVolumeCollectionSummary:
-    type: object
-    properties:
-      populatedFields:
-        type: array
-        uniqueItems: true
-        items:
-          type: string
-      id:
-        type: string
-      name:
-        type: string
   ContainerVolumeSnapshot:
     type: object
     properties:
