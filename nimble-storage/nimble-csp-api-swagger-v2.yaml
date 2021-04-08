@@ -866,8 +866,8 @@ definitions:
   SnapshotGroupConfig:
     type: object
     properties:
-      replicate_to:
-        type: string
+      replicate:
+        type: boolean
       is_complete:
         type: boolean
       repl_status:
