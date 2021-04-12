@@ -1219,7 +1219,7 @@
         "id": {
           "type": "string"
         },
-        "partner_name": {
+        "name": {
           "type": "string"
         },
         "repl_direction": {

@@ -652,44 +652,6 @@
         }
       }
     },
-    "/tokens" : {
-      "post" : {
-        "summary" : "Create an access token",
-        "operationId" : "createToken",
-        "requestBody" : {
-          "description" : "An access token to grant access to the CSP",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/AccessToken"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "Success",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/AccessToken"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Bad Request"
-          },
-          "401" : {
-            "description" : "Invalid username and/or password"
-          },
-          "500" : {
-            "description" : "Internal Server Error"
-          }
-        }
-      }
-    },
     "/tokens/{id}" : {
       "delete" : {
         "summary" : "Delete the access token",
@@ -724,6 +686,44 @@
           },
           "404" : {
             "description" : "Not Found"
+          },
+          "500" : {
+            "description" : "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/tokens" : {
+      "post" : {
+        "summary" : "Create an access token",
+        "operationId" : "createToken",
+        "requestBody" : {
+          "description" : "An access token to grant access to the CSP",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AccessToken"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AccessToken"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "401" : {
+            "description" : "Invalid username and/or password"
           },
           "500" : {
             "description" : "Internal Server Error"
@@ -1352,7 +1352,7 @@
           "id" : {
             "type" : "string"
           },
-          "partner_name" : {
+          "name" : {
             "type" : "string"
           },
           "repl_direction" : {

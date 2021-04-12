@@ -868,11 +868,11 @@ POST `/containers/v1/snapshot_groups`
 }
 ```
 
-DELETE `/containers/v1/snapshot_groups`
+DELETE `/containers/v1/snapshot_groups/{id}`
 
  * Delete the snapshotgroup identified
 
-#### Request to delete a snapshotgroup
+#### Request to delete a snapshotgroup 
 ```
 DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666b000000000000000000000003
 ```
@@ -883,13 +883,17 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 204 No Content
 ```
 
-DELETE `/containers/v1/snapshot_groups?delete_downstream=true`
+DELETE `/containers/v1/snapshot_groups/{id}?replication_partner=replPartner`
 
  * Delete the downstream snapshotgroup 
 
 #### Request to delete a downstream snapshotgroup
 ```
-DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666b000000000000000000000003?delete_downstream=true
+DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666b000000000000000000000003?replication_partner=replPartner
+```
+
+```json
+["040419a3f59745e5f100000000000000f50001ac9b"]
 ```
 
 #### Response
@@ -1019,6 +1023,6 @@ GET http://localhost:8080/csp/containers/v1/replication_partners
 | | config | map[string]interface{} | | X | X |
 | ReplicationPartner | | | | | |
 | | id | string | | | X |
-| | partner_name | string | X |  | X |
+| | name | string | X |  | X |
 | | is_alive | boolean | |  | X |
 | | repl_direction | string | |  | X |

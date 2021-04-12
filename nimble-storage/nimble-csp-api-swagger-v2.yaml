@@ -803,7 +803,7 @@ definitions:
         type: boolean
       id:
         type: string
-      partner_name:
+      name:
         type: string
       repl_direction:
         type: string
