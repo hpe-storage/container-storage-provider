@@ -373,23 +373,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "replication_partner",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
           }
         ],
         "responses": {
@@ -585,42 +568,6 @@
         }
       }
     },
-    "/tokens/{id}": {
-      "delete": {
-        "tags": [
-          "tokens"
-        ],
-        "operationId": "delete",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "OK logged out"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/tokens": {
       "post": {
         "tags": [
@@ -661,6 +608,42 @@
           }
         },
         "security": []
+      }
+    },
+    "/tokens/{id}": {
+      "delete": {
+        "tags": [
+          "tokens"
+        ],
+        "operationId": "delete",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK logged out"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
       }
     },
     "/volume_groups": {

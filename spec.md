@@ -883,25 +883,6 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 204 No Content
 ```
 
-DELETE `/containers/v1/snapshot_groups/{id}?replication_partner=replPartner`
-
- * Delete the downstream snapshotgroup 
-
-#### Request to delete a downstream snapshotgroup
-```
-DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666b000000000000000000000003?replication_partner=replPartner
-```
-
-```json
-["040419a3f59745e5f100000000000000f50001ac9b"]
-```
-
-#### Response
-
-```
-204 No Content
-```
-
 ### `/containers/v1/replication_partners`
 
 This endpoint is used to get the details of storage system replication partners.
