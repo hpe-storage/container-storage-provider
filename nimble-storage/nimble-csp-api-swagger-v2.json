@@ -218,7 +218,7 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Replication partner name cannot be found"
+            "description": "Replication partner name not found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -568,6 +568,42 @@
         }
       }
     },
+    "/tokens/{id}": {
+      "delete": {
+        "tags": [
+          "tokens"
+        ],
+        "operationId": "delete",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK logged out"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/tokens": {
       "post": {
         "tags": [
@@ -608,42 +644,6 @@
           }
         },
         "security": []
-      }
-    },
-    "/tokens/{id}": {
-      "delete": {
-        "tags": [
-          "tokens"
-        ],
-        "operationId": "delete",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "OK logged out"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
       }
     },
     "/volume_groups": {
@@ -1205,7 +1205,7 @@
         "name": {
           "type": "string"
         },
-        "repl_direction": {
+        "repl_role": {
           "type": "string",
           "enum": [
             "upstream",
