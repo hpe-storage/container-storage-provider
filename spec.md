@@ -118,7 +118,9 @@ GET http://localhost:8080/csp/containers/v1/volumes
         "config": {
             "parameter1": "default",
             "parameter2": false
-        }
+        },
+        "used_bytes" : 12570624,
+        "free_bytes" : 1061171200
     },
     {
         "id": "067b5b0c6a3d0ece0600000000000000000000001d",
@@ -129,7 +131,9 @@ GET http://localhost:8080/csp/containers/v1/volumes
         "config": {
             "parameter1": "default",
             "parameter2": false
-        }
+        },
+        "used_bytes" : 12570624,
+        "free_bytes" : 1061171200
     }
 ]
 ```
@@ -154,7 +158,9 @@ GET http://localhost:8080/csp/containers/v1/volumes/067b5b0c6a3d0ece060000000000
     "config": {
         "parameter1": "default",
         "parameter2": false
-    }
+    },
+    "used_bytes" : 12570624,
+    "free_bytes" : 1061171200
 }
 ```
 
@@ -181,7 +187,9 @@ GET http://localhost:8080/csp/containers/v1/volumes?name=volume1
             "parameter2": false
         },
         "base_snapshot_id": "",
-        "volume_group_id": ""
+        "volume_group_id": "",
+        "used_bytes" : 12570624,
+        "free_bytes" : 1061171200
     }
 ]
 ```
@@ -224,7 +232,9 @@ PUT `/containers/v1/volumes/{id}`
     "config": {
         "parameter1": "default",
         "parameter2": false
-    }
+    },
+    "used_bytes" : 12570624,
+    "free_bytes" : 1061171200
 }
 ```
 
@@ -858,11 +868,11 @@ POST `/containers/v1/snapshot_groups`
 }
 ```
 
-DELETE `/containers/v1/snapshot_groups`
+DELETE `/containers/v1/snapshot_groups/{id}`
 
  * Delete the snapshotgroup identified
 
-#### Request to delete a snapshotgroup
+#### Request to delete a snapshotgroup 
 ```
 DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666b000000000000000000000003
 ```
@@ -872,6 +882,36 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 ```
 204 No Content
 ```
+
+### `/containers/v1/replication_partners`
+
+This endpoint is used to get the details of storage system replication partners.
+
+The following methods will be supported against this endpoint.
+
+GET `/containers/v1/replication_partners`
+
+ * Return all of the replication partners used for containers on the array.
+
+#### Request
+
+```
+GET http://localhost:8080/csp/containers/v1/replication_partners
+```
+
+#### Response
+
+```json
+[
+    {
+        "id" : "052265c9672660666b000000000000000000000001",
+        "partner_name" : "group-sjc-test",
+        "repl_direction": "downstream",
+        "is_alive" : "true",
+    }
+]
+```
+
 
 ## Object sets
 
@@ -883,6 +923,8 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 | snapshots | /containers/v1/snapshots | volume_id<br>name | get<br>post<br>delete | |
 | volume_groups | /containers/v1/volume_groups | name | get<br>post<br>delete | |
 | snapshot_groups | /containers/v1/snapshot_groups | volume_group_id | get<br>post<br>delete | |
+| replication_partners | /containers/v1/replication_partners | name | get | |
+
 
 ## Objects
 
@@ -915,6 +957,8 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 | | volume_group_id | string | | X | X |
 | | published | boolean |  | | X |
 | | config | map[string]interface{} | | | X |
+| | free_bytes | number | | | X |
+| | used_bytes | number | | | X |
 | PublishOptions | | | | | |
 | | host_uuid | string | X | X | |
 | | access_protocol | string | X | X | |
@@ -958,3 +1002,8 @@ DELETE http://localhost:8080/csp/containers/v1/snapshot_groups/052265c9672660666
 | | creation_time (seconds) | number |  | | X |
 | | volumes | list\<Snapshot\> |  | | X |
 | | config | map[string]interface{} | | X | X |
+| ReplicationPartner | | | | | |
+| | id | string | | | X |
+| | name | string | X |  | X |
+| | is_alive | boolean | |  | X |
+| | repl_direction | string | |  | X |
