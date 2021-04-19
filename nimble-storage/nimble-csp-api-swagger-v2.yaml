@@ -3,7 +3,7 @@ info:
   description: |-
     This API, used by the HPE CSI driver, enables management of resources used for container workloads.
     It is not intended for direct usage outside of the CSI driver but is provided here for documentation purposes.
-  version: 1.0.0
+  version: 1.1.0
   title: csp
   license:
     name: Apache 2.0
