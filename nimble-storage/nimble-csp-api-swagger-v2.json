@@ -1372,42 +1372,11 @@
         "config": {
           "$ref": "#/definitions/VolumeConfig"
         },
-        "snaphotUsedBytes": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "pool_name": {
-          "type": "string"
-        },
         "base_snapshot_id": {
           "type": "string"
         },
         "volume_group_id": {
           "type": "string"
-        },
-        "used_bytes": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "free_bytes": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "reservation_ratio": {
-          "type": "number",
-          "format": "float"
-        },
-        "data_compression_saved_bytes": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "data_deduplication_saved_bytes": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "snapshot_used_bytes": {
-          "type": "integer",
-          "format": "int64"
         }
       }
     },
