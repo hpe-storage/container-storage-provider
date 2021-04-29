@@ -1684,12 +1684,6 @@
             "items" : {
               "type" : "string"
             }
-          },
-          "chap_user" : {
-            "type" : "string"
-          },
-          "chap_password" : {
-            "type" : "string"
           }
         }
       },
