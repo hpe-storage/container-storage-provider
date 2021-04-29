@@ -338,7 +338,6 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
     "target_names": ["iqn.2007-11.com.nimblestorage:group-array1-g3b5de80e54af7a6b"]
 }
 ```
- * Note that `chap_user` and `chap_password` must also be part of the response if CHAP details were provided as part of the Node definition.
  * `target_names`  should be returned as an array of target IQNs from CSP and converted to CSV format by CSI driver.
 
  #### Response for multiple target IQNs
@@ -957,8 +956,6 @@ GET http://localhost:8080/csp/containers/v1/replication_partners
 | | PeerArrayDetails | list\<SecondaryLunInfo\> | X | | X|
 | | target_names | list\<string\> | only for iscsi | | X |
 | | discovery_ips | list\<string\> | only for iscsi | | X |
-| | chap_user | string | only for iscsi | | X |
-| | chap_password | string | only for iscsi | | X |
 |  SecondaryLunInfo | | | | | |
 | | lun_id | number | X | X |
 | | target_names | list\<string\> | only for iscsi | | X |
