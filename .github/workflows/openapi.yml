@@ -1,0 +1,44 @@
+name: OpenAPI Contract
+
+on:
+  pull_request:
+    paths:
+      - 'openapi/**'
+      - 'nimble-storage/**'
+      - 'redocly.yaml'
+      - 'package.json'
+      - '.github/workflows/openapi.yml'
+  push:
+    branches: [ master, main ]
+
+jobs:
+  openapi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install tooling
+        run: npm ci
+
+      - name: Lint OpenAPI source
+        run: npm run lint
+
+      - name: Bundle vendor renderings
+        run: npm run bundle
+
+      - name: Fail if committed renderings are out of date
+        run: |
+          if ! git diff --exit-code -- \
+              nimble-storage/nimble-csp-api-openapi.yaml \
+              nimble-storage/nimble-csp-api-openapi.json; then
+            echo "::error::The committed OpenAPI renderings under nimble-storage/ are out of date."
+            echo "Edit the source in openapi/, then run 'npm run build' and commit the regenerated files."
+            exit 1
+          fi
