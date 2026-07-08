@@ -13,6 +13,6 @@ source of truth is [`openapi/openapi.yaml`](openapi/openapi.yaml); the rendered
 `nimble-storage/nimble-csp-api-openapi.{yaml,json}` files are build outputs
 produced by `npm run bundle`. See [`openapi/README.md`](openapi/README.md) for
 the contract-first workflow — edit, lint, bundle, and how to generate a Redocly
-preview (`npm run preview` for a live server, `npm run preview:build` for a
-shareable static HTML) to review changes before merging.
+preview (`npm run preview` builds a shareable, self-contained static HTML) to
+review changes before merging.
 

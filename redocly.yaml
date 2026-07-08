@@ -22,7 +22,3 @@ rules:
   tag-description: warn
   no-unused-components: warn
   security-defined: error
-
-theme:
-  openapi:
-    disableSearch: false

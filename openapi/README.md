@@ -51,19 +51,18 @@ Step by step, to make and land a change:
 
 ## Previewing the docs (Redocly)
 
-Two ways to render the spec for review before merging:
+Render the spec to a static, self-contained HTML page for review before merging:
 
 ```bash
-# Live, hot-reloading preview server (best while iterating locally)
-npm run preview          # redocly preview-docs → http://localhost:8080
-
-# Static, self-contained HTML (best to attach to a PR / share with reviewers)
-npm run preview:build    # redocly build-docs → csp-api-preview.html
+npm run preview          # redocly build-docs → csp-api-preview.html
 open csp-api-preview.html   # macOS (or open it in any browser)
 ```
 
-- Both render the `nimble-csp-api` API defined in `redocly.yaml`, i.e. the
+- Renders the `nimble-csp-api` API defined in `redocly.yaml`, i.e. the
   authored `openapi/openapi.yaml`.
+- Redocly CLI v2 removed the single-file live-reload server (`preview-docs`);
+  its `preview` command now serves a full docs *project*, so this repo uses
+  `build-docs` to produce a shareable static page instead.
 - `csp-api-preview.html` is a single self-contained file (git-ignored) that
   reviewers can open without any tooling installed.
 - To preview the exact `$ref`-inlined artifact consumers receive, run
