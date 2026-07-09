@@ -16,6 +16,7 @@ basePath: "/containers/v1"
 tags:
 - name: "hosts"
 - name: "replication_partners"
+- name: "storage_clusters"
 - name: "snapshot_groups"
 - name: "snapshots"
 - name: "tokens"
@@ -401,6 +402,27 @@ paths:
           description: "Not Found"
         500:
           description: "Internal Server Error"
+  /storage-clusters:
+    get:
+      tags:
+      - "storage_clusters"
+      summary: "Get storage cluster details"
+      description: ""
+      operationId: "getStorageClusters"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/NfsServerIPRange"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
   /volume_groups:
     get:
       tags:
@@ -681,8 +703,8 @@ paths:
     put:
       tags:
       - "volumes"
-      summary: "Unpublishes a volume to the given host"
-      description: ""
+      summary: "Unpublishes a block or file volume from the given host"
+      description: "For block volumes, provide host_uuid in the body. For file volumes, provide volume_id and access_ip."
       operationId: "unpublishVolume"
       consumes:
       - "application/json"
@@ -693,11 +715,18 @@ paths:
         in: "path"
         required: true
         type: "string"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/UnpublishOptions"
       responses:
-        204:
-          description: "Volume unpublished successfully"
+        200:
+          description: "File volume unpublished successfully"
           schema:
-            $ref: "#/definitions/PublishInfo"
+            $ref: "#/definitions/PublishFileInfo"
+        204:
+          description: "Block volume unpublished successfully"
         400:
           description: "Bad Request"
         401:
@@ -911,4 +940,40 @@ definitions:
       replication_partner:
         type: "string"
       protection_template:
+        type: "string"
+  PublishFileOptions:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      host_uuid:
+        type: "string"
+      access_protocol:
+        type: "string"
+      volume_id:
+        type: "string"
+      access_ip:
+        type: "string"
+  UnpublishOptions:
+    type: "object"
+    properties:
+      host_uuid:
+        type: "string"
+      name:
+        type: "string"
+      access_ip:
+        type: "string"
+      volume_id:
+        type: "string"
+  PublishFileInfo:
+    type: "object"
+    properties:
+      host_ip:
+        type: "string"
+      mount_path:
+        type: "string"
+  NfsServerIPRange:
+    type: "object"
+    properties:
+      nfs_server_ip_range:
         type: "string"

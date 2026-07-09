@@ -375,18 +375,35 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 
 PUT `/containers/v1/volumes/{id}/actions/unpublish`
  * Unpublish the volume from the given host.  For example, the Nimble implementation would remove an access control record for the specified host during this operation.
- * The body must contain the host UUID
+ * For **block volumes**, the body must contain the host UUID.
+ * For **file volumes**, the body must contain the volume ID and the access IP to remove.
 
-#### Request
+#### Request (block volume)
 ```json
 {
     "host_uuid": "41302701-0196-420f-b319-834a79891db0"
 }
 ```
 
-#### Response
+#### Response (block volume)
 ```
 204 No Content
+```
+
+#### Request (file volume)
+```json
+{
+    "volume_id": "067b5b0c6a3d0ece0600000000000000000000001d",
+    "access_ip": "172.28.12.161"
+}
+```
+
+#### Response (file volume)
+```json
+{
+    "host_ip": "172.28.12.161",
+    "mount_path": "/export/my-volume"
+}
 ```
 
 DELETE `/containers/v1/volumes/{id}`
@@ -902,6 +919,30 @@ GET http://localhost:8080/csp/containers/v1/replication_partners
 ]
 ```
 
+### `/containers/v1/storage-clusters`
+
+This endpoint is used to get storage cluster details required for file volume workflows.
+
+The following methods will be supported against this endpoint.
+
+GET `/containers/v1/storage-clusters`
+
+ * Return storage cluster details including the NFS server IP range.
+
+#### Request
+
+```
+GET http://localhost:8080/csp/containers/v1/storage-clusters
+```
+
+#### Response
+
+```json
+{
+    "nfs_server_ip_range": "10.0.0.0/24"
+}
+```
+
 
 ## Object sets
 
@@ -914,6 +955,7 @@ GET http://localhost:8080/csp/containers/v1/replication_partners
 | volume_groups | /containers/v1/volume_groups | name | get<br>post<br>delete | |
 | snapshot_groups | /containers/v1/snapshot_groups | volume_group_id | get<br>post<br>delete | |
 | replication_partners | /containers/v1/replication_partners | name | get | |
+| storage_clusters | /containers/v1/storage-clusters | | get | |
 
 
 ## Objects
@@ -965,6 +1007,18 @@ GET http://localhost:8080/csp/containers/v1/replication_partners
 | | discovery_ips | list\<string\> | only for iscsi | | X |
 | UnpublishOptions | | | | | |
 | | host_uuid | string | X | X | |
+| | name | string | | X | |
+| | volume_id | string | | X | |
+| | access_ip | string | | X | |
+| PublishFileOptions | | | | | |
+| | name | string | | X | |
+| | host_uuid | string | | X | |
+| | access_protocol | string | | X | |
+| | volume_id | string | X | X | |
+| | access_ip | string | X | X | |
+| PublishFileInfo | | | | | |
+| | host_ip | string | X | | X |
+| | mount_path | string | X | | X |
 | Snapshot | | | | | |
 | | id | string | | | X |
 | | name | string | X | X | X |
@@ -995,3 +1049,5 @@ GET http://localhost:8080/csp/containers/v1/replication_partners
 | | name | string | X |  | X |
 | | is_alive | boolean | |  | X |
 | | repl_direction | string | |  | X |
+| NfsServerIPRange | | | | | |
+| | nfs_server_ip_range | string | X | | X |
