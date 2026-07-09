@@ -1,0 +1,24 @@
+# Redocly configuration for the HPE Container Storage Provider (CSP) API.
+#
+# The authored SOURCE OF TRUTH is openapi/openapi.yaml (OpenAPI 3.x).
+# The vendor renderings under nimble-storage/*-openapi.{yaml,json} are BUILD
+# OUTPUTS produced by `npm run bundle` — do NOT edit those by hand; edit the
+# source and re-bundle instead.
+
+apis:
+  nimble-csp-api:
+    root: openapi/openapi.yaml
+
+extends:
+  - recommended
+
+# Start lenient so the freshly converted 2.0 -> 3.0 spec passes CI, then tighten
+# these to `error` incrementally as the authored spec is cleaned up.
+rules:
+  no-empty-servers: warn
+  operation-operationId: warn
+  operation-2xx-response: warn
+  operation-summary: warn
+  tag-description: warn
+  no-unused-components: warn
+  security-defined: error

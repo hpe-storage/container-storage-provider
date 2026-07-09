@@ -1,0 +1,8 @@
+# Node tooling (Redocly CLI, swagger2openapi)
+node_modules/
+npm-debug.log*
+*.log
+
+# Redocly preview/build scratch output
+.redocly-lint-cache
+csp-api-preview.html
