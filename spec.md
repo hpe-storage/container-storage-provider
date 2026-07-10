@@ -46,7 +46,7 @@ This endpoint is used to register hosts with the CSP.
 
 POST `/containers/v1/hosts`
  * Registers a host with the CSP
- * The body must contain a host UUID, name, initiators (either IQNs, WWPNs or both), networks (if using iSCSI), and optional CHAP information (for iSCSI)
+ * The body must contain a host UUID, name, initiators (IQNs, WWPNs and/or NQNs), networks (if using iSCSI), optional CHAP information (for iSCSI), and an optional virtual domain
  * The response will report a new Host.  The ID returned from this POST request be used to publish and unpublish a volume
 
 #### Request
@@ -934,9 +934,12 @@ GET http://localhost:8080/csp/containers/v1/replication_partners
 | | name | string | X | X | X |
 | | iqns | list\<string\> | when wwpns are not specified | X | X |
 | | wwpns | list\<string\> | when iqns are not specified | X | X |
+| | nqns | list\<string\> | when using NVMe-oF | X | X |
 | | networks | list\<string\> | when iqns are specified | X | X |
 | | chap_user | string |  | X | X |
 | | chap_password | string | | X | X |
+| | access_protocol | string | | X | X |
+| | virtual_domain | string | | X | X |
 | Volume | | | | | |
 | | id | string | | | X |
 | | name | string | X | X | X |
