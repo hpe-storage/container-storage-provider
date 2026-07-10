@@ -405,11 +405,23 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "required": false,
+            "description": "Optional response-behavior selector for the snapshot list. When set to `exists`, the CSP performs a lightweight existence check for snapshots of the given `volume_id` instead of returning the full list, avoiding loading all snapshot metadata into memory (used by the volume-delete precondition check). In this mode the response array contains at most one snapshot — a single element if any snapshot exists, or an empty array if none do. When omitted, the full list of snapshots is returned (default). CSPs that do not implement this optimization ignore the parameter and return the full list, so callers must rely only on whether the array is non-empty.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "exists"
+              ]
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Success. Returns the array of snapshots for the volume. When `mode=exists` is supplied, the array contains at most one element (empty if the volume has no snapshots).",
             "content": {
               "application/json": {
                 "schema": {
