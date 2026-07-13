@@ -1296,6 +1296,12 @@
               "type": "string"
             }
           },
+          "nqns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "networks": {
             "type": "array",
             "items": {
@@ -1307,6 +1313,14 @@
           },
           "chap_password": {
             "type": "string"
+          },
+          "access_protocol": {
+            "type": "string",
+            "description": "Data access protocol the host uses to attach volumes (for example: iscsi, fc, nvme)."
+          },
+          "virtual_domain": {
+            "type": "string",
+            "description": "Optional virtual domain that the host belongs to. When set, the CSP scopes host and volume export operations to this virtual domain."
           }
         }
       },
