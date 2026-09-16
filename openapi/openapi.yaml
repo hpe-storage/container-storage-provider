@@ -669,15 +669,24 @@ paths:
       tags:
         - volumes
       summary: Publishes a volume to the given host
-      description: ""
+      description: >-
+        Publishes a volume so that it can be accessed by a host. For block
+        CSPs this maps the volume to the host and returns block access
+        details (PublishOptions/PublishInfo). For file CSPs this exports the
+        file share to the requested clients and returns the NFS export
+        details (PublishFileShareOptions/PublishFileShareInfo).
       operationId: publishVolume
       requestBody:
-        description: The host and access protocol to publish the volume to
+        description: >-
+          The host and access protocol to publish a block volume to, or the
+          access control list to export a file share to.
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/PublishOptions"
+              oneOf:
+                - $ref: "#/components/schemas/PublishOptions"
+                - $ref: "#/components/schemas/PublishFileShareOptions"
       parameters:
         - name: id
           in: path
@@ -690,7 +699,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PublishInfo"
+                oneOf:
+                  - $ref: "#/components/schemas/PublishInfo"
+                  - $ref: "#/components/schemas/PublishFileShareInfo"
         "400":
           description: Bad Request
         "401":
@@ -704,15 +715,24 @@ paths:
       tags:
         - volumes
       summary: Unpublishes a volume to the given host
-      description: ""
+      description: >-
+        Unpublishes a volume so it is no longer accessible by a host. For
+        block CSPs this removes the host-to-volume mapping
+        (UnpublishOptions). For file CSPs this removes the requested client
+        from the file share export (UnpublishFileShareOptions); an empty body
+        removes all clients from the export.
       operationId: unpublishVolume
       requestBody:
-        description: The host to unpublish the volume from
+        description: >-
+          The host to unpublish a block volume from, or the client to remove
+          from a file share export.
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UnpublishOptions"
+              oneOf:
+                - $ref: "#/components/schemas/UnpublishOptions"
+                - $ref: "#/components/schemas/UnpublishFileShareOptions"
       parameters:
         - name: id
           in: path
@@ -903,11 +923,61 @@ components:
           enum:
             - iscsi
             - fc
+    PublishFileShareOptions:
+      type: object
+      description: >-
+        Options used by file CSPs to publish (export) a file share to a set of
+        clients. Sent as the request body to the publish action for file
+        volumes.
+      properties:
+        name:
+          type: string
+          description: Name of the file share to publish.
+        volume_id:
+          type: string
+          description: >-
+            Identifier of the file share (volume) being published. Populated
+            from the path parameter when omitted in the body.
+        access_protocol:
+          type: string
+          description: >-
+            File access protocol used to export the share (for example: nfs).
+        access_control_list:
+          type: string
+          description: >-
+            Comma separated list of client IPs, subnets or a wildcard ('*')
+            that are granted access to the exported file share.
+    PublishFileShareInfo:
+      type: object
+      description: >-
+        Export details returned by file CSPs after a file share has been
+        successfully published.
+      properties:
+        mount_path:
+          type: string
+          description: Server side export path that clients mount.
+        export_ip:
+          type: string
+          description: IP address the client uses to reach the file share export.
     UnpublishOptions:
       type: object
       properties:
         host_uuid:
           type: string
+    UnpublishFileShareOptions:
+      type: object
+      description: >-
+        Options used by file CSPs to unpublish (remove a client from) a file
+        share export. An empty body removes all clients from the export.
+      properties:
+        name:
+          type: string
+          description: Name of the file share to unpublish.
+        access_ip:
+          type: string
+          description: >-
+            Client IP to remove from the file share export. When omitted, all
+            clients are removed from the export.
     SnapshotConfig:
       type: object
     SnapshotGroup:

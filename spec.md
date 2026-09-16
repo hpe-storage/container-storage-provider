@@ -373,6 +373,25 @@ PUT `/containers/v1/volumes/{id}/actions/publish`
 }
 ```
 
+#### Request for file share access
+ * For file CSPs the same publish action exports the file share to the requested clients instead of mapping a block device.
+ * The body contains the file share `access_control_list` (and optionally `name`, `access_protocol`); `volume_id` is taken from the path.
+```json
+{
+    "name": "my-file-share",
+    "access_protocol": "nfs",
+    "access_control_list": "10.20.30.0/24,10.20.31.15"
+}
+```
+
+#### Response for file share access
+```json
+{
+    "mount_path": "/exports/my-file-share",
+    "export_ip": "10.20.30.15"
+}
+```
+
 PUT `/containers/v1/volumes/{id}/actions/unpublish`
  * Unpublish the volume from the given host.  For example, the Nimble implementation would remove an access control record for the specified host during this operation.
  * The body must contain the host UUID
@@ -381,6 +400,16 @@ PUT `/containers/v1/volumes/{id}/actions/unpublish`
 ```json
 {
     "host_uuid": "41302701-0196-420f-b319-834a79891db0"
+}
+```
+
+#### Request for file share access
+ * For file CSPs the same unpublish action removes a client from the file share export instead of removing a host mapping.
+ * The body contains the client `access_ip` (and optionally `name`). An empty body removes all clients from the export.
+```json
+{
+    "name": "my-file-share",
+    "access_ip": "10.20.31.15"
 }
 ```
 
@@ -966,8 +995,19 @@ GET http://localhost:8080/csp/containers/v1/replication_partners
 | | lun_id | number | X | X |
 | | target_names | list\<string\> | only for iscsi | | X |
 | | discovery_ips | list\<string\> | only for iscsi | | X |
+| PublishFileShareOptions | | | | | |
+| | name | string | | X | |
+| | volume_id | string | | X | |
+| | access_protocol | string | | X | |
+| | access_control_list | string | X | X | |
+| PublishFileShareInfo | | | | | |
+| | mount_path | string | X | | X |
+| | export_ip | string | X | | X |
 | UnpublishOptions | | | | | |
 | | host_uuid | string | X | X | |
+| UnpublishFileShareOptions | | | | | |
+| | name | string | | X | |
+| | access_ip | string | | X | |
 | Snapshot | | | | | |
 | | id | string | | | X |
 | | name | string | X | X | X |
